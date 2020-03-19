@@ -1,6 +1,4 @@
-# table-retrieval
-Ad Hoc Table Retrieval using Semantic Similarity
-
+# Ad Hoc Table Retrieval using Semantic Similarity
 As part of TU Delft IN4325 Information Retrieval Core IR - Reproduction project.
 
 Original paper:
