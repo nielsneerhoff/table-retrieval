@@ -9,11 +9,6 @@ from sklearn.feature_selection import SelectKBest, f_classif
 
 data = pd.read_csv('./feature/features.csv')
 
-#preprocessing
-data['Sex'].replace(['female','male'], [0,1],inplace=True)
-data = func.preprocess_dataframe(data, 'mean')
-data = data.drop(columns=['Name', 'Cabin', 'Embarked', 'Pclass', 'Ticket'])
-
 #Division into train and test
 df = pd.DataFrame(np.random.randn(len(data), 2))
 msk = np.random.rand(len(df)) < 0.8
