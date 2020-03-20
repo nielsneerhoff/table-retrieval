@@ -14,9 +14,11 @@ from sklearn.metrics import confusion_matrix
 from sklearn.feature_selection import SelectKBest, f_classif
 import matplotlib.pyplot as plt
 import seaborn as sns
-
-
 from sklearn.datasets import make_classification
+
+
+
+from sklearn.ensemble import Ran
 
 #todo
 #get cross validation function using stratified crossval

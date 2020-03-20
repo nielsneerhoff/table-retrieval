@@ -1,7 +1,7 @@
 import pandas as pd
 
 FEATURES_FILE = './feature/features.csv'
-QUERIES_FILE = './data/queries.txt'
+QUERIES_FILE = './data/queries.csv'
 
 class InOut:
 
