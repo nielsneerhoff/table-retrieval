@@ -58,6 +58,8 @@ base = set([
 ])
 
 def extract_features(all_features, feature_set_name = None):
+    """ Extracts the features corresponding to a feature set name from all features. For instance, passing 'wiki' as feature_set_name returns all columns from all_features corresponding to 'wiki' features. """
+
     features_names = set()
     if feature_set_name == 'str':
         feature_names  = STR

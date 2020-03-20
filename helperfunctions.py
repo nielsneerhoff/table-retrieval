@@ -17,48 +17,17 @@ import seaborn as sns
 from sklearn.datasets import make_classification
 
 
-
-from sklearn.ensemble import Ran
-
-#todo
-#get cross validation function using stratified crossval
-#implement feature selection to get best features
-
-
-#workflow is the following
-#preprocess dataframe
-#remove features if you want k best features
-#select classifier
-#Train classifier
-#Test and eval classifier
-
+# Original Paper
+from sklearn.ensemble import RandomForstRegressor
+# WikiTable
+from sklearn.linear_model import Lasso
 
 
 def get_classifier(name):
-    if name == 'Tree':
-        classifier = tree.DecisionTreeClassifier()
     if name == 'Forest':
-        classifier = RandomForestClassifier(n_estimators=100)
-    if name == 'AdaBoost':
-        classifier = AdaBoostClassifier(n_estimators=30)
-    if name == 'XGB':
-        classifier =  xgb.XGBClassifier()
-        # classifier = xgb.XGBClassifier(silent=False,
-        #               scale_pos_weight=1,
-        #               learning_rate=0.01,
-        #               colsample_bytree = 0.4,
-        #               subsample = 0.8,
-        #               objective='binary:logistic',
-        #               n_estimators=1000,
-        #               reg_alpha = 0.3,
-        #               max_depth=4,
-        #               gamma=10)
-    if name == 'SVM':
-        classifier = svm.SVC()
-    if name == 'KNN':
-        classifier = KNeighborsClassifier(n_neighbors=10)
-    if name == 'Naive':
-        classifier = GaussianNB()
+        classifier = RandomForstRegressor(n_estimators=100, max_depth=3)
+    if name == 'Lasso':
+        classifier = Lasso()
     return classifier
 
 def train_classifier(classifier, training_dataframe, training_features_series):
