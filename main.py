@@ -7,3 +7,6 @@ wiki_tables_features = extract_features(features, 'wiki')
 web_tables_features = extract_features(features, 'web')
 ltr_features = extract_features(features, 'ltr')
 str_features = extract_features(features, 'str')
+
+queries = io.read_queries()
+# Do queries to vector...
