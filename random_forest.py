@@ -1,8 +1,9 @@
 import pandas as pd
 import sklearn.model_selection
 from sklearn.linear_model import Lasso
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import KFold
-from sklearn.metrics import mean_squared_error
+from sklearn.metrics import mean_absolute_error
 from statistics import mean
 
 
@@ -17,12 +18,12 @@ X = X.drop(['query_id', 'query', 'table_id', 'rel'], axis=1)
 
 fold = KFold(n_splits=5, shuffle=True, random_state=3)
 
-MSE_Training = list()
-MSE_Validation = list()
+MAE_Training = list()
+MAE_Validation = list()
 
-index = 0
 for train_index, test_index in fold.split(X):
-    model = Lasso(alpha=0.001, max_iter=500000)
+    #model = Lasso(alpha=0.001, max_iter=900000)
+    model = RandomForestRegressor(n_estimators=1000, max_depth=3)
 
     print('new fold')
     X_train, X_test = X.iloc[train_index], X.iloc[test_index]
@@ -30,14 +31,14 @@ for train_index, test_index in fold.split(X):
     model.fit(X_train, y_train)
     train_predictions = model.predict(X_train)
     validation_predictions = model.predict(X_test)
-    print('training error ' + str(mean_squared_error(y_train, train_predictions)))
-    print('validation error ' + str(mean_squared_error(y_test, validation_predictions)))
-    MSE_Training.append(mean_squared_error(y_train, train_predictions))
-    MSE_Validation.append(mean_squared_error(y_test, validation_predictions))
-    for pred, actual in zip(validation_predictions, y_test):
-        print(str(pred) + " " + str(actual))
+    print('training error ' + str(mean_absolute_error(y_train, train_predictions)))
+    print('validation error ' + str(mean_absolute_error(y_test, validation_predictions)))
+    MAE_Training.append(mean_absolute_error(y_train, train_predictions))
+    MAE_Validation.append(mean_absolute_error(y_test, validation_predictions))
+    # for pred, actual in zip(validation_predictions, y_test):
+    #     print(str(pred) + " " + str(actual))
 
-print("Average MSE 5 folds training: " + str(mean(MSE_Training)))
-print("Average MSE 5 folds validation: " + str(mean(MSE_Validation)))
+print("Average MAE 5 folds training: " + str(mean(MAE_Training)))
+print("Average MAE 5 folds validation: " + str(mean(MAE_Validation)))
 
 
