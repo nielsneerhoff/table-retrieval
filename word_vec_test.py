@@ -21,9 +21,8 @@ for file in files:
             if i in id_dict:
                 #print("Found id: " + str(id_dict[i]))
                 total_ids_found +=1
-                tables[i] = []
-                tables[i].append(data[i])
+                tables[i] = data[i]
 print(total_ids_found)
-with open('C:/Users/wybek/Documents/school/Master/Information Retrieval/project2/data/relevant_Tables.json', 'w') as outfile:
+with open('C:/Users/wybek/Documents/school/Master/Information Retrieval/project2/data/relevant_Tables_working.json', 'w') as outfile:
     json.dump(tables, outfile)
 
