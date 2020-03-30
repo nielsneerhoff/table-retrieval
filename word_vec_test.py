@@ -11,14 +11,15 @@ id_dict = dict(zip(id, id))
 print(len(id_dict))
 total_ids_found = 0
 
+tables = {}
+
 for file in files:
     print(file)
     with open("C:/Users/wybek/Documents/school/Master/Information Retrieval/proproceed/tables_redi2_1/" + file) as json_file:
         data = json.load(json_file)
-        tables = {}
         for i in data:
             if i in id_dict:
-                print("Found id: " + str(id_dict[i]))
+                #print("Found id: " + str(id_dict[i]))
                 total_ids_found +=1
                 tables[i] = []
                 tables[i].append(data[i])
