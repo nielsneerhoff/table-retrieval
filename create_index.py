@@ -6,7 +6,7 @@ from whoosh.index import create_in
 
 
 
-schema = Schema(id=TEXT, title=TEXT, numCols=NUMERIC, pgTitle=TEXT, numDataRows=NUMERIC, secondTitle=TEXT, numHeaderRows=NUMERIC, caption=TEXT, content=TEXT)
+schema = Schema(id=TEXT(stored=True), title=TEXT(stored=True), numCols=NUMERIC(stored=True), pgTitle=TEXT(stored=True), numDataRows=NUMERIC(stored=True), secondTitle=TEXT(stored=True), numHeaderRows=NUMERIC(stored=True), caption=TEXT(stored=True), content=TEXT(stored=True))
 
 if not os.path.exists("index"):
     os.mkdir("index")
