@@ -1,6 +1,7 @@
 from whoosh.index import open_dir
 from whoosh.qparser import MultifieldParser
 from whoosh import scoring
+from whoosh import searching
 
 from schema import schema
 
