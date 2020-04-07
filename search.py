@@ -26,14 +26,15 @@ multi_field_parser = MultifieldParser(
     schema = schema)
 
 def search(
-    scoring_function = bm25f, query_parser = multi_field_parser, index = index, limit = 30):
+    query_string, scoring_function = bm25f, query_parser = multi_field_parser, index = index, limit = 30):
     """ Search index using a scoring function and a query parser. Limits search results to limit. """
 
     with index.searcher(weighting = scoring_function) as searcher:
-        query_string = "fast cars"
         query = query_parser.parse(query_string)
         results = searcher.search(query, limit = 30)
         print(len(results))
         for i in results:
             print(i['id'])
         return results
+
+search('fast cars')
