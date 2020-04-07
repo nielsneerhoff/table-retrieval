@@ -20,33 +20,38 @@ def BM25F(titles_b, caption_and_headers_b, cells_b):
 
 # Dummy bm25f scoring function with trivial weights.
 DUMMY_BM25F = BM25F(0.5, 0.75, 0.5)
-DUMMY_BM25 = scoring.BM25F()
+DUMMY_BM25 = scoring.BM25F
 
-def search(query_string, scoring_function, query_parser, index = INDEX, limit = 30):
+def search(query_string, scoring_function, query_parser, index = INDEX):
     """ Search index using a scoring function and a query parser. Limits search results to limit. """
 
+    # TODO Add limit?
     with index.searcher(weighting = scoring_function) as searcher:
         query = query_parser.parse(query_string)
-        results = searcher.search(query, limit = 30)
+        results = searcher.search(query, limit = 3120)
         print(len(results), 'results found for', query_string)
         return results
 
-def search_bm25f(query_string, scoring_function, index = INDEX, limit = 30):
+def search_bm25f(query_string, scoring_function, index = INDEX):
     """ Search index using bm25f scoring function and composite multi-field parser. Limits search results to limit. """
 
     return search(query_string, scoring_function, MULTI_FIELD_PARSER)
 
 def search_single_field(
-    query_string, scoring_function, index = INDEX, limit = 30):
+    query_string, scoring_function, index = INDEX):
     """ Search index using bm25f scoring function and composite multi-field parser. Limits search results to limit. """
 
     return search(query_string, scoring_function, SINGLE_FIELD_PARSER)
 
 def search_multi_field(
-    query_string, scoring_function, index = INDEX, limit = 30):
+    query_string, scoring_function, index = INDEX):
     """ Search index using bm25f scoring function and multi-field parser. Limits search results to limit. """
 
     # To be implemented.
     pass
 
-search_bm25f('fast cars', DUMMY_BM25F)
+def search_default(
+    query_string, scoring_function = scoring.BM25F, index = INDEX):
+    """ Search index using bm25f default scoring function and base (default) parser. Limits search results to limit. """
+
+    return search(query_string, scoring_function, DEFAULT_FIELD_PARSER)
