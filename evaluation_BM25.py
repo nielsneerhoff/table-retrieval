@@ -10,11 +10,11 @@ import pickle
 from whoosh import qparser
 
 
-queries = pd.read_csv('C:/Users/wybek/Documents/school/Master/Information Retrieval/project2/data/queries.csv')
+queries = pd.read_csv('./data/queries.csv')
 queries = queries['query'].tolist()
 queries = [item.strip() for item in queries]
 
-with open('C:/Users/wybek/Documents/school/Master/Information Retrieval/project2/data/qrels_dict.pickle', 'rb') as handle:
+with open('./data/qrels_dict.pickle', 'rb') as handle:
     qrels = pickle.load(handle)
 
 schema = Schema(id=TEXT(stored=True), title=TEXT(stored=True), numCols=NUMERIC(stored=True), pgTitle=TEXT(stored=True), numDataRows=NUMERIC(stored=True), secondTitle=TEXT(stored=True), numHeaderRows=NUMERIC(stored=True), caption=TEXT(stored=True), content=TEXT(stored=True))
