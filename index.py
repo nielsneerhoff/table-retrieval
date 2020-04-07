@@ -1,6 +1,5 @@
 import os.path
 
-import pandas as pd
 from whoosh.index import create_in, open_dir
 
 from schema import SCHEMA
