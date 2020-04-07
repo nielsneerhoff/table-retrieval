@@ -5,7 +5,9 @@ import json
 ix = open_dir("index")
 writer = ix.writer()
 
-with open('C:/Users/wybek/Documents/school/Master/Information Retrieval/project2/data/relevant_Tables_working.json', 'r') as file:
+filename = './data/relevant_Tables_working.json'
+
+with open(filename, 'r') as file:
     data = json.load(file)
     #print(type(data))
     for i in data:
