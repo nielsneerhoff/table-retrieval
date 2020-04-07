@@ -24,11 +24,22 @@ filename = './data/wikiquery_data_utf8.tsv'
 
 data = pd.read_csv(filename, sep="\t")
 tables = {}
+num_of_tables = {} # Maps a hyperlink to the number of tables on that page.
 for i in range(len(data)):
     print(i)
     row = data.iloc[i]
     table = {}
+
+    # Count the number of tables on this hyperlink.
+    link = row['URL']
+    num = 0
+    if link in num_of_tables:
+        num = num_of_tables[link]
+    num_of_tables[link] = num + 1
+
+    # Retrieve other table info.
     table_id = int(row['TableID'])
+    table['link'] = link
     table['source'] = row['Source']
     table['title'] = row['Caption']
     table['sub_title'] = row['Sub-Caption']
@@ -36,7 +47,6 @@ for i in range(len(data)):
     table['headers'] = headers
     table['num_headers'] = len(headers)
     lines = row['CellStr'].split(' _||_ ')
-    # table['lines'] = lines # Not needed ?
     table['num_rows'] = len(lines)
     content = []
     numeric_columns = set()
@@ -50,6 +60,11 @@ for i in range(len(data)):
     table['numeric_columns'] = list(numeric_columns)
     table['data'] = content
     tables[table_id] = table
+
+for table_id in tables:
+    table = tables[table_id]
+    link = table['link']
+    table['num_of_tables'] = num_of_tables[link]
 
 json_filename = './data/wikiquery_json.json'
 with open(json_filename, 'w') as file:

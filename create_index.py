@@ -1,12 +1,9 @@
-import pandas as pd
-from whoosh.fields import *
 import os.path
+
+import pandas as pd
 from whoosh.index import create_in
 
-
-
-
-schema = Schema(id=TEXT(stored=True), title=TEXT(stored=True), numCols=NUMERIC(stored=True), pgTitle=TEXT(stored=True), numDataRows=NUMERIC(stored=True), secondTitle=TEXT(stored=True), numHeaderRows=NUMERIC(stored=True), caption=TEXT(stored=True), content=TEXT(stored=True))
+from schema import schema
 
 if not os.path.exists("index"):
     os.mkdir("index")
