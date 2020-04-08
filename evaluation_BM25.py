@@ -3,7 +3,7 @@ import pandas as pd
 import pickle
 from whoosh.scoring import BM25F
 
-from search import search_bm25f, search_single_field
+from search import search_bm25f_and, search_single_field
 
 queries = pd.read_csv('./data/queries.csv')
 queries = queries['query'].tolist()
@@ -59,8 +59,7 @@ def hyper_parameter_evaluate():
                     body_b = bb / 10
                     # BM25F
                     scoring_function = BM25F(K1 = k, titles_B = titles_b, caption_and_headers_B = caption_and_headers_b, body_B = body_b)
-                    search_function = search_bm25f
+                    search_function = search_bm25f_and
                     result = evaluate(search_function, scoring_function)
                     print(k, titles_b, caption_and_headers_b, body_b, result)
 
-hyper_parameter_evaluate()

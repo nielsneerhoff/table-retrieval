@@ -2,7 +2,7 @@ from whoosh import scoring
 from whoosh import searching
 from schema import SCHEMA
 from whoosh.index import open_dir
-from parser_2 import SINGLE_FIELD_PARSER, MULTI_FIELD_PARSER, DEFAULT_FIELD_PARSER
+from parser_2 import SINGLE_FIELD_PARSER, MULTI_FIELD_PARSER_OR, MULTI_FIELD_PARSER_AND, DEFAULT_FIELD_PARSER
 
 from index import INDEX_NAME
 
@@ -19,10 +19,13 @@ def search(query_string, scoring_function, query_parser, index_name):
     finally:
         return results, searcher
 
-def search_bm25f(query_string, scoring_function, index_name = INDEX_NAME):
+def search_bm25f_or(query_string, scoring_function, index_name = INDEX_NAME):
     """ Search index using bm25f scoring function and composite multi-field parser. Limits search results to limit. """
+    return search(query_string, scoring_function, MULTI_FIELD_PARSER_OR, index_name)
 
-    return search(query_string, scoring_function, MULTI_FIELD_PARSER, index_name)
+def search_bm25f_and(query_string, scoring_function, index_name = INDEX_NAME):
+    """ Search index using bm25f scoring function and composite multi-field parser. Limits search results to limit. """
+    return search(query_string, scoring_function, MULTI_FIELD_PARSER_AND, index_name)
 
 def search_single_field(query_string, scoring_function, index_name = INDEX_NAME):
     """ Search index using bm25f scoring function and composite multi-field parser. Limits search results to limit. """
