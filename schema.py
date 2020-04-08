@@ -2,6 +2,7 @@ from whoosh.fields import TEXT, NUMERIC, Schema
 from whoosh.index import open_dir
 from re import sub
 
+# TODO
 # QUESTIONS TO DISCUSS (IN REPORT)
 # 1. Do we want to keep doubles or stick with unique values?
 # 2. Do we want to remove hyperlinks?

@@ -12,5 +12,5 @@
             "console": "integratedTerminal",
         }
     ],
-    "debugStdLib": true
+    "justMyCode": false
 }
