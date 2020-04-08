@@ -1,9 +1,12 @@
 from whoosh import scoring
 from whoosh import searching
+from schema import SCHEMA
 from whoosh.index import open_dir
+from parser_2 import SINGLE_FIELD_PARSER, MULTI_FIELD_PARSER, DEFAULT_FIELD_PARSER
 
 from index import INDEX_NAME
-from parser import SINGLE_FIELD_PARSER, MULTI_FIELD_PARSER, DEFAULT_FIELD_PARSER
+
+
 
 def search(query_string, scoring_function, query_parser, index_name):
     """ Search index using a scoring function and a query parser. Limits search results to limit. """
