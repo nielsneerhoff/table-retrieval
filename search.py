@@ -1,6 +1,8 @@
 from whoosh import scoring
 from whoosh import searching
+from whoosh.index import open_dir
 
+from index import INDEX_NAME
 from parser import SINGLE_FIELD_PARSER, MULTI_FIELD_PARSER, DEFAULT_FIELD_PARSER
 
 def BM25F(titles_b, caption_and_headers_b, cells_b):
@@ -12,36 +14,34 @@ def BM25F(titles_b, caption_and_headers_b, cells_b):
         caption_and_headers_b = caption_and_headers_b
     )
 
-# Dummy bm25f scoring function with trivial weights.
-DUMMY_BM25F = BM25F(0.5, 0.75, 0.5)
-DUMMY_BM25 = scoring.BM25F
+def BM25F():
+    """ Returns a default BM25F scoring function. """
 
-def search(query_string, scoring_function, query_parser, index):
+    return scoring.BM25F()
+
+def search(query_string, scoring_function, query_parser, index_name):
     """ Search index using a scoring function and a query parser. Limits search results to limit. """
 
-    with index.searcher(weighting = scoring_function) as searcher:
+    try:
+        index = open_dir(index_name)
+        searcher = index.searcher(weighting = scoring_function)
         query = query_parser.parse(query_string)
         results = searcher.search(query, limit = 3120)
-        print(len(results), 'results found for', query_string)
-        return results
+    finally:
+        return results, searcher
 
-def search_bm25f(query_string, scoring_function, index):
+def search_bm25f(query_string, scoring_function, index_name = INDEX_NAME):
     """ Search index using bm25f scoring function and composite multi-field parser. Limits search results to limit. """
 
-    return search(query_string, scoring_function, MULTI_FIELD_PARSER, index)
+    return search(query_string, scoring_function, MULTI_FIELD_PARSER, index_name)
 
-def search_single_field(query_string, scoring_function, index):
+def search_single_field(query_string, scoring_function, index_name = INDEX_NAME):
     """ Search index using bm25f scoring function and composite multi-field parser. Limits search results to limit. """
 
-    return search(query_string, scoring_function, SINGLE_FIELD_PARSER, index)
+    return search(query_string, scoring_function, SINGLE_FIELD_PARSER, index_name)
 
-def search_multi_field(query_string, scoring_function, index):
+def search_multi_field(query_string, scoring_function, index_name = INDEX_NAME):
     """ Search index using bm25f scoring function and multi-field parser. Limits search results to limit. """
 
-    # To be implemented.
+    # TODO To be implemented. After call David Maxwell.
     pass
-
-def search_default(query_string, index):
-    """ Search index using bm25f default scoring function and base (default) parser. Limits search results to limit. """
-
-    return search(query_string, scoring.BM25F, DEFAULT_FIELD_PARSER, index)
