@@ -131,3 +131,10 @@ dmypy.json
 
 # Large data set
 wikiquery*
+
+data/tables.jsonl
+data/tables_small.jsonl
+
+.DS_Store
+
+.vscode/launch.json
