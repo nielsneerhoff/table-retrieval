@@ -2,7 +2,16 @@ import pandas as pd
 import re
 import json
 import requests
+import gensim
+import numpy as np
 
+def get_TFIDF(term, table,):
+    return -1
+
+def get_centroid(arr):
+    nparr = np.array(arr)
+    length, dim = nparr.shape
+    return np.array([np.sum(nparr[:, i])/length for i in range(dim)])
 
 def retrieve_table_features(table, tables_list_file):
     table['nul'] = 0
@@ -22,7 +31,6 @@ def get_entities_api(text):
     """ Retrieve list entities from text using the DBpedia API
     returns list of entities
     """
-    # text = 'United States World Sghoccer'
     entities = []
     param = { 'text' : text }
     url='http://api.dbpedia-spotlight.org/en/candidates'
@@ -42,14 +50,13 @@ def get_entities_regex(text):
     """ Retrieve list of entities from text using Regex
     returns list of entities
     """
-    entities = re.compile( r'(\|.*?\])').findall(text)
-    for index, string in enumerate(entities):
-        entities[index] = string.strip('|]')
+    entities = list(map(lambda x: x.strip('|]'), re.compile( r'(\|.*?\])').findall(text)))
     return entities
 
 def set_representation(content, representation='words'):
     """ The “raw” content of a query/table is represented as a set of terms, 
     where terms can be either words or entities.
+    :param content: either the table with data or a single string
     :param representation: 'words' or 'entities'
     """
     content_set = set()
@@ -58,24 +65,28 @@ def set_representation(content, representation='words'):
         if isinstance(content, str):
             content_set = set(content.split())
         else:
-            headers = [t.split() for t in content.title]
-            content_set = set([headers, content.caption.split(), content.pgTitle.split()])
+            content_list = content['pgTitle'].split()
+            for t in content['title']:
+                content_list.extend(t.split())
+            content_list.extend(content['secondTitle'])
+            content_list.extend(content['caption'].split())
+            content_set = set(content_list)
 
     if representation == 'entities':
         if isinstance(content, str):
             content_set = set(get_entities_api(content))
         else:
-            test= get_entities_api(content)
-            entities_in_col = [0 for i in range(content['numCols'])]
+            max_entities_col = []
             for j in range(content['numCols']):
+                string_cc = content['title'][j]
                 for i in range(content['numDataRows']):
-                    test = get_entities_regex(content['data'][i][j])
-                    entities_in_col[i] += len(get_entities_regex(content['data'][i][j]))
-            string = content.caption + ' ' + content.pgTitle
-            for header in content.title:
-                string += ' ' + header
-            content_set = set(get_entities_regex(string))
-
+                    string_cc += ' ' + content['data'][i][j]
+                entities_col_j = get_entities_api(string_cc)
+                if len(max_entities_col) < len(entities_col_j):
+                    max_entities_col = entities_col_j
+            entities_caption_title = get_entities_api(content['caption'] + ' ' + content['pgTitle'])
+            content_set = set(entities_caption_title).union(set(max_entities_col))
+    
     return content_set
     
 
@@ -122,7 +133,7 @@ def extract_features(queries, tables, qrels, tables_list_file):
     dataframe = []
     queries_dict = {}
 
-    table_features = {}
+    model = gensim.models.KeyedVectors.load_word2vec_format('./data/GoogleNews-vectors-negative300.bin', binary=True)
 
     for row in queries.itertuples():
         queries_dict[row.query_id] = row.query.strip()
@@ -133,7 +144,23 @@ def extract_features(queries, tables, qrels, tables_list_file):
         table_id = row.table_id
         table = tables[table_id]
 
-        set_representation(table, 're')
+        words_query = set_representation(query, 'words')
+        words_table = set_representation(table, 'words')
+
+        words_query_2vec = []
+        for word in words_query:
+            words_query_2vec.append(model[word])
+        centroid = get_centroid(words_query_2vec)
+
+        words_table_2vec = []
+        for word in words_table:
+            words_table_2vec.append(model[word])
+        
+
+        entities_query = set_representation(query, 'entities')
+        entities_table = set_representation(table, 'entities')
+
+        
 
         # row = table['numDataRows']
         # col = table['numCols']

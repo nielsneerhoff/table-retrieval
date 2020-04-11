@@ -138,3 +138,5 @@ data/tables_small.jsonl
 .DS_Store
 
 .vscode/launch.json
+
+data/GoogleNews-vectors-negative300.bin
