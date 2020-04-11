@@ -19,13 +19,3 @@ qrels = InOut.read_qrels()
 large_tables_file = './data/tables.jsonl'
 
 features_queries = extract_features(queries, tables, qrels, large_tables_file)
-
-# start = time()
-# count = 0
-# with open(large_tables_file, 'r') as file_reader:
-#         for table in file_reader:
-#             table = json.loads(table)
-#             count += 1
-
-# end = time()
-# print(end-start)
