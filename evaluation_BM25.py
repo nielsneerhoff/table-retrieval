@@ -1,3 +1,5 @@
+import csv
+
 from sklearn.metrics import ndcg_score
 import pandas as pd
 import pickle
@@ -45,21 +47,32 @@ def evaluate(search_function, scoring_function):
     return total_ndcg_5 / 60, total_ndcg_10 / 60, total_ndcg_15 / 60, total_ndcg_20 / 60
 
 def hyper_parameter_evaluate():
-    for k in range(25, 300, 25):
-        k = k / 100
-        # Single-field BM25
-        # scoring_function = BM25F(k)
-        # search_function = search_single_field
-        # result = evaluate(search_function, scoring_function)
-        for tb in range(1, 10):
-            titles_b = tb / 10
-            for cb in range(1, 10):
-                caption_and_headers_b = cb / 10
-                for bb in range(1, 10):
-                    body_b = bb / 10
-                    # BM25F
-                    scoring_function = BM25F(K1 = k, titles_B = titles_b, caption_and_headers_B = caption_and_headers_b, body_B = body_b)
-                    search_function = search_bm25f_and
-                    result = evaluate(search_function, scoring_function)
-                    print(k, titles_b, caption_and_headers_b, body_b, result)
+    ks = [25, 50, ]
+    with open('ndcg_bm25.csv', 'w') as file:
+        csv_writer = csv.writer(file)
+        for k in range(25, 201, 25):
+            k = k / 100
+            # Single-field BM25
+            scoring_function = BM25F(K1 = k)
+            search_function = search_single_field
+            result = evaluate(search_function, scoring_function)
+            for tb in range(11):
+                titles_b = tb / 10
+                for cb in range(11):
+                    caption_and_headers_b = cb / 10
+                    for bb in range(11):
+                        body_b = bb / 10
+                        # BM25F
+                        scoring_function = BM25F(
+                            K1 = k, 
+                            titles_B = titles_b,
+                            caption_and_headers_B = caption_and_headers_b,
+                            body_B = body_b)
+                        search_function = search_bm25f_and
+                        result = evaluate(search_function, scoring_function)
+                        row = [k, titles_b, caption_and_headers_b, body_b, result]
+                        csv_writer.writerow(row)
+                        print(row)
 
+# Do the evaluation.
+hyper_parameter_evaluate()

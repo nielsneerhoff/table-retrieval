@@ -4,12 +4,15 @@ from re import sub
 
 # TODO
 # QUESTIONS TO DISCUSS (IN REPORT)
-# 1. Do we want to keep doubles or stick with unique values?
-# 2. Do we want to remove hyperlinks?
-# 3. Do we want to lemmatize/stem? (Seems logical to do)
+# 1. Do we want to keep doubles or stick with unique values? 
+# DOUBLE HOUDEN, OMDAT EFFECT FREQUENCY VERANDEREN ONVOORSPELBAAR IS MET ESTABLISHED BM25.
+# 2. Do we want to remove hyperlinks? YES, WE WOULD ADD EVEN LONGER DOCUMENTS, FURTHERMORE NOT ADD CONTENT TO TABLE, ONLY DOC GETS LONGER (DO NOT WANT THAT). ENTITIES ARE ALREADY INCLUDED, ABBREVIATION CLUTTERS RESULT.
+# 3. Do we want to lemmatize/stem? (seems logical to do) STAAT UIT BIJ CLAUDIA
 # 4. Why do we get better NDCG results without cleaning?
+# 5. Which or group to use (OR or AND)?
 
-# Example cleaned field:
+# Example cleaned field: 
+# https://en.wikipedia.org/wiki/Charlotte_Hornets_all-time_roster
 # Denotes players who are currently on the Bobcats roster Denotes players who are currently on the Bobcats roster Denotes players who are currently on the Bobcats roster Denotes players who are currently on the Bobcats roster Denotes players who are currently on the Bobcats roster No No Jersey number Jersey number Pos Position Position G Basketball positions Basketball positions F Basketball positions C Basketball positions Pts Point basketball Point basketball Reb Rebound basketball Ast Assist basketball
 
 SCHEMA = Schema(
