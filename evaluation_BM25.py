@@ -5,7 +5,7 @@ import pandas as pd
 import pickle
 from whoosh.scoring import BM25F
 
-from search import search_bm25f_and, search_single_field
+from search import search_bm25f_and, search_single_field, search_bm25f_or
 
 queries = pd.read_csv('./data/queries.csv')
 queries = queries['query'].tolist()
@@ -47,7 +47,6 @@ def evaluate(search_function, scoring_function):
     return total_ndcg_5 / 60, total_ndcg_10 / 60, total_ndcg_15 / 60, total_ndcg_20 / 60
 
 def hyper_parameter_evaluate():
-    ks = [25, 50, ]
     with open('ndcg_bm25.csv', 'w') as file:
         csv_writer = csv.writer(file)
         for k in range(25, 201, 25):

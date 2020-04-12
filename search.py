@@ -6,8 +6,6 @@ from parser_2 import SINGLE_FIELD_PARSER, MULTI_FIELD_PARSER_OR, MULTI_FIELD_PAR
 
 from index import INDEX_NAME
 
-
-
 def search(query_string, scoring_function, query_parser, index_name):
     """ Search index using a scoring function and a query parser. Limits search results to limit. """
 
