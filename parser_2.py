@@ -19,6 +19,6 @@ MULTI_FIELD_PARSER_AND = MultifieldParser(
     schema = SCHEMA)
 
 DEFAULT_FIELD_PARSER = MultifieldParser(
-    ["headers", "body", "page_title", "caption", "section_title"], schema = SCHEMA, group = OrGroup)
-
-
+    ["headers", "body", "page_title", "caption", "section_title"],
+    schema = SCHEMA,
+    group = OrGroup)
