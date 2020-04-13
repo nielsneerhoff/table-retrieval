@@ -13,8 +13,10 @@ def extract_semantic_features(query, table, model, early_fusion=True, is_words=T
     :param query: string with query
     :param table: table json object
     """
-
+    
     if is_words:
+        if len(query['all_words']) == 0 or len(table['all_words'] == 0):
+            return -1
         query_words = list(filter(lambda y: y in model.keys(), query['all_words']))
         query_tfidf = list(map(lambda x: query[x]['TFIDF'], query_words))
         query_2vec = list(map(lambda x: model[x], query_words))
@@ -23,6 +25,8 @@ def extract_semantic_features(query, table, model, early_fusion=True, is_words=T
         table_tfidf = list(map(lambda x: table[x]['TFIDF'], table_words))
         table_2vec = list(map(lambda x: model[x], table_words))
     else:
+        if len(query['all_entities']) == 0 or len(table['all_entities'] == 0):
+            return -1
         query_2vec = list(map(lambda x: model[x], list(filter(lambda y: y in model.keys(), query['all_entities']))))
         table_2vec = list(map(lambda x: model[x], list(filter(lambda y: y in model.keys(), table['all_entities']))))
 
@@ -52,7 +56,7 @@ def set_representation(content, representation='words'):
 
     if representation == 'entities':
         if isinstance(content, str):
-            content_set = set(get_entities_regex(content))
+            content_set = set(get_entities_api(content))
         else:
             max_entities_col = get_entities_core_column(content['data'], content['title'], get_entities_regex)
             entities_caption_title = get_entities_regex(content['caption'] + ' ' + content['pgTitle'])

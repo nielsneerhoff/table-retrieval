@@ -47,8 +47,8 @@ def get_all_entities(queries, tables):
     all_entities = set()
 
     for q_id, query in queries.items():
-        entities_query = find_all_entities_in_query(query)
-        # entities_query = set_representation(query, 'entities')
+        # entities_query = find_all_entities_in_query(query)
+        entities_query = set_representation(query, 'entities')
         query_to_entities[q_id] = {'all_entities' : list(entities_query)}
         for entity in entities_query:
             query_to_entities[q_id][entity] = {}
@@ -72,7 +72,6 @@ def get_TFIDF(queries, tables, query_to_words, table_to_words):
         words_query = query_to_words[q_id]['all_words']
         for word in words_query:
             query_to_words[q_id][word] = {
-                'word' : word, 
                 'TF' : len([x for x in words_query if x == word]) / len(words_query),
                 'IDF' : log(len(queries) / len([word for x in query_to_words.values() if word in x['all_words']]))
                 }
@@ -85,7 +84,6 @@ def get_TFIDF(queries, tables, query_to_words, table_to_words):
         words_table = table_to_words[t_id]['all_words']
         for word in words_table:
             table_to_words[t_id][word] = {
-                'word' : word, 
                 'TF' : len([x for x in words_table if x == word]) / len(words_table),
                 'IDF' : log(len(tables) / len([word for x in table_to_words.values() if word in x['all_words']]))
                 }
@@ -113,39 +111,39 @@ def get_all_entities_from_json(query_to_entities, table_to_entities):
     return all_entities
 
 
-def find_all_entities_in_query(query):
-    query_to_ngrams = {}
+# def find_all_entities_in_query(query):
+#     query_to_ngrams = {}
 
-    splitted = query.split(' ')
-    query_to_ngrams[splitted[0]] = list_to_ngrams(splitted[1:])
+#     splitted = query.split(' ')
+#     query_to_ngrams[splitted[0]] = list_to_ngrams(splitted[1:])
 
-    query_to_entities = {}
-    entities = []
+#     query_to_entities = {}
+#     entities = []
 
-    for k, v in query_to_ngrams.items():
-        query_entities = [check_if_entity(i) for i in v if check_if_entity(i) is not None]
-        query_to_entities[k] = sorted(list(set(query_entities)))
-        entities += query_entities
+#     for k, v in query_to_ngrams.items():
+#         query_entities = [check_if_entity(i) for i in v if check_if_entity(i) is not None]
+#         query_to_entities[k] = sorted(list(set(query_entities)))
+#         entities += query_entities
 
-    return entities, query_to_entities
-
-
-def check_if_entity(s):
-    try:
-        page = wikipedia.page(s)
-        res = page.url.split('/')[-1]
-        if res.lower().replace('_', ' ') == s:
-            return res
-        else:
-            return
-    except wikipedia.PageError:
-        return
-    except wikipedia.DisambiguationError:
-        return
+#     return entities, query_to_entities
 
 
-def list_to_ngrams(words):
-    words_incl_n_grams = []
-    for N in range(1, len(words) + 1):
-        words_incl_n_grams += [' '.join(words[i:i+N]).strip() for i in range(len(words)-N+1)]
-    return words_incl_n_grams
+# def check_if_entity(s):
+#     try:
+#         page = wikipedia.page(s)
+#         res = page.url.split('/')[-1]
+#         if res.lower().replace('_', ' ') == s:
+#             return res
+#         else:
+#             return
+#     except wikipedia.PageError:
+#         return
+#     except wikipedia.DisambiguationError:
+#         return
+
+
+# def list_to_ngrams(words):
+#     words_incl_n_grams = []
+#     for N in range(1, len(words) + 1):
+#         words_incl_n_grams += [' '.join(words[i:i+N]).strip() for i in range(len(words)-N+1)]
+#     return words_incl_n_grams

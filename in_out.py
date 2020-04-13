@@ -77,6 +77,7 @@ class InOut:
                 else:
                     entity_name = preprocessed[0].strip()
                     df2vec[entity_name] = list(map(lambda x: float(x), vector.split(' ')))
+                    df2vec[entity_name]['categories'] = []
             except:
                 pass
         write_json(rdf2vec, path)
