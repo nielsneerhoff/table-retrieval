@@ -86,7 +86,7 @@ def evaluate(search_function, scoring_function):
             total_prec_75 += num_relevant_tables_75 / num_results
             total_prec_100 += num_relevant_tables_100 / num_results
 
-            # Calculate recall at 4 levels. See slides first week.
+            # Calculate recall at 4 leve ls. See slides first week.
             num_relevant_in_corpus = num_of_relevant_tables[query_string]
             if num_relevant_in_corpus > 0:
                 total_rec_25 += num_relevant_tables_25 / num_relevant_in_corpus
@@ -101,28 +101,27 @@ def evaluate(search_function, scoring_function):
 def hyper_parameter_evaluate():
     ks = [0.25, 0.75, 1.25, 2]
     bs = [i / 10 for i in range(11)]
-    with open('ndcg_bm25.csv', 'w') as file:
+    with open('ndcg_bm25_single.csv', 'w') as file:
         csv_writer = csv.writer(file)
         for k in ks:
             # Single-field BM25
             scoring_function = BM25F(K1 = k)
             search_function = search_single_field
             result = evaluate(search_function, scoring_function)
-            for titles_b in bs:
-                for caption_and_headers_b in bs:
-                    for body_b in bs:
-                        # BM25F
-                        scoring_function = BM25F(
-                            K1 = k,
-                            titles_B = titles_b,
-                            caption_and_headers_B = caption_and_headers_b,
-                            body_B = body_b)
-                        search_function = search_bm25f_or
-                        result = evaluate(search_function, scoring_function)
-                        row = [
-                            k, titles_b, caption_and_headers_b, body_b, result]
-                        csv_writer.writerow(row)
-                        print(row)
+            # for titles_b in bs:
+            #     for caption_and_headers_b in bs:
+            #         for body_b in bs:
+            #             # BM25F
+            #             scoring_function = BM25F(
+            #                 K1 = k,
+            #                 titles_B = titles_b,
+            #                 caption_and_headers_B = caption_and_headers_b,
+            #                 body_B = body_b)
+            #             search_function = search_bm25f_or
+            #             result = evaluate(search_function, scoring_function)
+            row = [k, result]
+            csv_writer.writerow(row)
+            print(row)
 
 # Do the evaluation.
 hyper_parameter_evaluate()
