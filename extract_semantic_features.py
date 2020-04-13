@@ -2,7 +2,10 @@ import pandas as pd
 import re
 import json
 import requests
+
 import numpy as np
+import xmltodict as xml
+
 from in_out import InOut as IO
 
 base_path_dicts = './data/dictionaries/'
@@ -77,7 +80,8 @@ def get_entities_api(text):
     if r.status_code != 200:
         raise ConnectionError
         return print('Error API')
-    content = json.loads(r.content)
+    content = xml.parse(r.content)
+    content = json.loads(json.dumps(content))
     if 'surfaceForm' in content['annotation'].keys():
         if isinstance(content['annotation']['surfaceForm'], list):
             entities = [name['@name'] for name in content['annotation']['surfaceForm']]
