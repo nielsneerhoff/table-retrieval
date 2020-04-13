@@ -2,6 +2,7 @@ import pandas as pd
 import re
 import json
 import requests
+import time
 
 import numpy as np
 import xmltodict as xml
@@ -74,12 +75,15 @@ def get_entities_api(text):
     returns list of entities
     """
     entities = []
-    param = { 'text' : text }
+    param = {'text' : text}
     url='http://api.dbpedia-spotlight.org/en/candidates'
-    r = requests.get(url = url, params=param) 
+    r = requests.get(url = url, params=param)
+    print(text)
+    time.sleep(1)
     if r.status_code != 200:
-        raise ConnectionError
-        return print('Error API')
+        print('Sleeping API for', text)
+        time.sleep(5)
+        return get_entities_api(text)
     content = xml.parse(r.content)
     content = json.loads(json.dumps(content))
     if 'surfaceForm' in content['annotation'].keys():
