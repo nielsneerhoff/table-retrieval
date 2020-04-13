@@ -54,8 +54,8 @@ def get_all_entities(queries, tables):
             query_to_entities[q_id][entity] = {}
         all_entities = all_entities.union(entities_query)
     IO.write_json(query_to_entities, base_path_dicts + 'query_to_entities.json')
-    
-        
+
+
     for t_id, table in tables.items():
         entities_table = set_representation(table, 'entities')
         table_to_entities[t_id] = {'all_entities' : list(entities_table)}
