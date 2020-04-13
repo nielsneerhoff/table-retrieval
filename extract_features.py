@@ -1,97 +1,20 @@
 import pandas as pd
-import re
 import json
-import requests
-import gensim
 import numpy as np
+import gensim
+from extract_semantic_features import *
+from extract_semantic_dictionaries import *
+from in_out import InOut as IO
 
-def get_TFIDF(term, table,):
-    return -1
+HEADERS = ['query_id', 'query', 'table_id', 'row', 'col', 'nul', 'in_link', 'out_link', 'pgcount', 'tImp',
+            'tPF', 'leftColhits', 'SecColhits', 'bodyhits', 'PMI', 'qInPgTitle', 'qInTableTitle', 'yRank',
+            'csr_score', 'idf1', 'idf2', 'idf3', 'idf4', 'idf5', 'idf6', 'max', 'sum', 'avg', 'sim', 'emax',
+            'esum', 'eavg', 'esim', 'cmax', 'csum', 'cavg', 'csim', 'remax', 'resum', 'reavg', ' resim',
+            'query_l', 'rel']
 
-def get_centroid(arr):
-    nparr = np.array(arr)
-    length, dim = nparr.shape
-    return np.array([np.sum(nparr[:, i])/length for i in range(dim)])
+base_path_dicts = './data/dictionaries/'
 
-def retrieve_table_features(table, tables_list_file):
-    table['nul'] = 0
-    table['in_link'] = 0
-    table['out_link'] = 0
-    table['pgcount'] = 0     # pageviews
-    table['tImp'] = 0        # table importance - Inverse of number of tables on the page
-    table['tPF'] = 0         # table page fraction - Ratio of table size to page size
-    table['PMI'] = 0         # The ACSDb-based schema coherency score
-    for row_table in table['data']:
-        for row_table_cell in row_table:
-            if row_table_cell == None or row_table_cell == '':
-                table['nul'] += 1
-            table['out_link'] += len(re.compile( r'(\[.*?\|.*?\])').findall(row_table_cell))
-    
-def get_entities_api(text):
-    """ Retrieve list entities from text using the DBpedia API
-    returns list of entities
-    """
-    entities = []
-    param = { 'text' : text }
-    url='http://api.dbpedia-spotlight.org/en/candidates'
-    r = requests.get(url = url, params=param) 
-    if r.status_code != 200:
-        raise ConnectionError
-        return print('Error API')
-    content = json.loads(r.content)
-    if 'surfaceForm' in content['annotation'].keys():
-        if isinstance(content['annotation']['surfaceForm'], list):
-            entities = [name['@name'] for name in content['annotation']['surfaceForm']]
-        else:
-            entities = [content['annotation']['surfaceForm']['@name']]
-    return entities
-
-def get_entities_regex(text):
-    """ Retrieve list of entities from text using Regex
-    returns list of entities
-    """
-    entities = list(map(lambda x: x.strip('|]'), re.compile( r'(\|.*?\])').findall(text)))
-    return entities
-
-def set_representation(content, representation='words'):
-    """ The “raw” content of a query/table is represented as a set of terms, 
-    where terms can be either words or entities.
-    :param content: either the table with data or a single string
-    :param representation: 'words' or 'entities'
-    """
-    content_set = set()
-
-    if representation == 'words':
-        if isinstance(content, str):
-            content_set = set(content.split())
-        else:
-            content_list = content['pgTitle'].split()
-            for t in content['title']:
-                content_list.extend(t.split())
-            content_list.extend(content['secondTitle'])
-            content_list.extend(content['caption'].split())
-            content_set = set(content_list)
-
-    if representation == 'entities':
-        if isinstance(content, str):
-            content_set = set(get_entities_api(content))
-        else:
-            max_entities_col = []
-            for j in range(content['numCols']):
-                string_cc = content['title'][j]
-                for i in range(content['numDataRows']):
-                    string_cc += ' ' + content['data'][i][j]
-                entities_col_j = get_entities_api(string_cc)
-                if len(max_entities_col) < len(entities_col_j):
-                    max_entities_col = entities_col_j
-            entities_caption_title = get_entities_api(content['caption'] + ' ' + content['pgTitle'])
-            content_set = set(entities_caption_title).union(set(max_entities_col))
-    
-    return content_set
-    
-
-
-def extract_features(queries, tables, qrels, tables_list_file):
+def extract_features(queries, tables, qrels):
     """ Extract features based on the queries and tables
     :param queries: pandas dataframe of queries of the form query_id, query
     :param tables: json of tables
@@ -130,94 +53,97 @@ def extract_features(queries, tables, qrels, tables_list_file):
             Semantic features
 
     """
+
+
+    # Main Dictionary of features
+    features = IO.read_json(base_path_dicts + 'current_features.json')
+    if features == None:
+        features = {}
+
+
+    # Dictionary of the queries
+    queries_dict = IO.read_json(base_path_dicts + 'queries.json')
+    if queries_dict == None:
+        queries_dict = {}
+        for row in queries.itertuples():
+            queries_dict[row.query_id] = row.query.strip()
+        IO.write_json(queries_dict, base_path_dicts + 'queries.json')
+
+    all_words = None
+    all_entities = None
     dataframe = []
-    queries_dict = {}
 
-    model = gensim.models.KeyedVectors.load_word2vec_format('./data/GoogleNews-vectors-negative300.bin', binary=True)
+    print('---------- LOADING DOCUMENT TO WORDS MODEL ----------')
+    query_to_words = IO.read_json(base_path_dicts + 'query_to_words.json')
+    table_to_words = IO.read_json(base_path_dicts + 'table_to_words.json')
+    if query_to_words == None or table_to_words == None:
+        all_words, query_to_words, table_to_words = get_all_words(queries_dict, tables)
+    print('---------- DONE LOADING DOCUMENT TO WORDS MODEL ----------\n')
+    
 
-    for row in queries.itertuples():
-        queries_dict[row.query_id] = row.query.strip()
+    print('---------- LOADING WORD2VEC MODEL ----------')
+    word2vec_model = IO.read_json(base_path_dicts + 'word2vec.json')
+    if word2vec_model == None:
+        word2vec_model = gensim.models.KeyedVectors.load_word2vec_format('./data/GoogleNews-vectors-negative300.bin', binary=True)
+        if all_words == None:
+            all_words = get_all_words_from_json(query_to_words, table_to_words)
+        word2vec_model = create_word2vec_model(word2vec_model, all_words)
+    print('---------- DONE LOADING WORD2VEC MODEL ----------\n')
+
+
+    print('---------- LOADING DOCUMENT TO ENTITIES MODEL ----------')
+    query_to_entities = IO.read_json(base_path_dicts + 'query_to_entities.json')
+    table_to_entities = IO.read_json(base_path_dicts + 'table_to_entities.json')
+    if query_to_entities == None or table_to_entities == None:
+        all_entities, query_to_entities, table_to_entities = get_all_entities(queries_dict, tables)
+    print('---------- DONE LOADING DOCUMENT TO ENTITIES MODEL ----------\n')
+
+
+    print('---------- LOADING RDF2VEC SUBSET MODEL ----------')
+    rdf2vec_model = IO.read_json(base_path_dicts + 'rdf2vec.json')
+    if rdf2vec_model == None:
+        rdf2vec_model = IO.read_json(base_path_dicts + 'rdf2vec_large.json')
+        if rdf2vec_model == None:
+            url = "http://data.dws.informatik.uni-mannheim.de/rdf2vec/models/DBpedia/2016-04/GlobalVectors/1_uniform/DBpediaVecotrs200_20Shuffle.txt"
+            rdf2vec_model = IO.download_rdf2vec(url, base_path_dicts + 'rdf2vec_large.json')
+        if all_entities == None:
+            all_entities = get_all_entities_from_json(query_to_entities, table_to_entities)
+        rdf2vec_model = create_rdf2vec_model(rdf2vec_model, all_entities)
+    print('---------- DONE LOADING RDF2VEC MODEL ----------\n')
+
     
     for row in qrels.itertuples():
-        query_id = row.query
-        query = queries_dict[query_id]
-        table_id = row.table_id
-        table = tables[table_id]
 
-        words_query = set_representation(query, 'words')
-        words_table = set_representation(table, 'words')
+        q_id = str(row.query)
+        t_id = str(row.table_id)
+        rowid = q_id + '_###_' + t_id
 
-        words_query_2vec = []
-        for word in words_query:
-            words_query_2vec.append(model[word])
-        centroid = get_centroid(words_query_2vec)
+        table = tables[row.table_id]
+        query = queries_dict[q_id]
 
-        words_table_2vec = []
-        for word in words_table:
-            words_table_2vec.append(model[word])
-        
+        if rowid not in features.keys():
+            features[rowid] = {
+                'query_id' : q_id,
+                'query' : query,
+                'table_id' : t_id,
+                'row' : table['numDataRows'],
+                'col' : table['numCols']
+            }
+            
+        if 'esim' not in features[rowid].keys():
+            features[rowid]['esim'] = extract_semantic_features(query_to_words[q_id], table_to_words[t_id], word2vec_model)
+        if 'eavg' not in features[rowid].keys():
+            features[rowid]['eavg'], features[rowid]['emax'], features[rowid]['esum'] = \
+                extract_semantic_features(query_to_words[q_id], table_to_words[t_id], word2vec_model, False)
 
-        entities_query = set_representation(query, 'entities')
-        entities_table = set_representation(table, 'entities')
+        if 'resim' not in features[rowid].keys():
+            features[rowid]['resim'] = extract_semantic_features(query_to_entities[q_id], table_to_entities[t_id], rdf2vec_model, True, False)
+        if 'reavg' not in features[rowid].keys():
+            features[rowid]['reavg'], features[rowid]['remax'], features[rowid]['resum'] = \
+                extract_semantic_features(query_to_entities[q_id], table_to_entities[t_id], rdf2vec_model, False, False)
 
-        
-
-        # row = table['numDataRows']
-        # col = table['numCols']
-
-        # if 'nul' not in table:
-            # retrieve_table_features(table, tables_list_file)
-        # nul = table['nul']
-        # in_link
-        # out_link = table['out_link']
-        # pgcount = table['pgcount']
-        # tImp = table['tImp']
-        # tPF = table['tPF']
+        dataframe.append(features[rowid])
     
-        dataframe.append({
-            'query_id' : query_id,
-            'query' : query,
-            'table_id' : table_id,
-        #     'row' : row,
-        #     'col' : col,
-        #     'nul' : nul,
-        #     'in_link',
-        #     'out_link' : out_link,
-        #     'pgcount',
-        #     'tImp',
-        #     'tPF',
-        #     'leftColhits',
-        #     'SecColhits',
-        #     'bodyhits',
-        #     'PMI',
-        #     'qInPgTitle',
-        #     'qInTableTitle',
-        #     'yRank',
-        #     'csr_score',
-        #     'idf1',
-        #     'idf2',
-        #     'idf3',
-        #     'idf4',
-        #     'idf5',
-        #     'idf6',
-        #     'max',
-        #     'sum',
-        #     'avg',
-        #     'sim',
-        #     'emax',
-        #     'esum',
-        #     'eavg',
-        #     'esim',
-        #     'cmax',
-        #     'csum',
-        #     'cavg',
-        #     'csim',
-        #     'remax',
-        #     'resum',
-        #     'reavg',
-        #     'resim',
-        #     'query_l'
-        #     'rel'
-        })
-
+    IO.write_json(features, base_path_dicts + 'current_features.json')
+    IO.write_csv(dataframe, base_path_dicts + 'features.csv')
     return pd.DataFrame(dataframe)

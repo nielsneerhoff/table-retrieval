@@ -1,6 +1,6 @@
 from in_out import InOut
 from feature_set import *
-from extract_features import extract_features
+from extract_features import *
 from time import time
 
 features = InOut.read_features()
@@ -19,7 +19,4 @@ qrels = InOut.read_qrels()
 
 large_tables_file = './data/tables.jsonl'
 
-features_queries = extract_features(queries, tables, qrels, large_tables_file)
-
-def get_TFIDF(term, table,):
-    return -1
+features_queries = extract_features(queries, tables, qrels)

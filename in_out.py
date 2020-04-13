@@ -1,5 +1,6 @@
 import pandas as pd
 import json
+import urllib
 
 FEATURES_FILE = './feature/features.csv'
 QUERIES_FILE = './data/queries.csv'
@@ -12,10 +13,6 @@ class InOut:
     def read_features(features_file = FEATURES_FILE):
         data = pd.read_csv(features_file)
         return data
-
-    @staticmethod
-    def write_csv(csv_file):
-        return pd.write_csv(csv_file)
 
     @staticmethod
     def read_queries(queries_file = QUERIES_FILE):
@@ -38,3 +35,50 @@ class InOut:
         with open(tables_list_file, 'r') as file_reader:
             for table in file_reader:
                 table = json.loads(table)
+
+    @staticmethod
+    def write_csv(dataframe, path):
+        dataframe.to_csv(path)
+
+    @staticmethod
+    def read_csv(path):
+        return pd.read_csv(path)
+
+    @staticmethod
+    def read_json(path):
+        try:
+            with open(path, 'r') as f:
+                return json.load(f)
+            f.close()
+        except FileNotFoundError:
+            return None
+
+    @staticmethod
+    def write_json(data, path):
+        with open(path, 'w') as f:
+            f.write(json.dumps(data, indent=4))
+        f.close()
+
+
+    @staticmethod
+    def download_rdf2vec(url, path):
+        rdf2vec = {}
+        f = urllib.request.urlopen(url)
+        df2vec = {}
+        entity_name = ''
+        for coded_line in f:
+            line = coded_line.decode("utf-8")
+            try:
+                preprocessed = line.split('http://dbpedia.org/resource/')[1].split('>')
+                vector = preprocessed[1].strip()
+                if preprocessed[0].contains('Category:'):
+                    category_name = preprocessed[0].strip('Category:')
+                    df2vec[entity_name]['categories'] += list(map(lambda x: float(x), vector.split(' ')))
+                else:
+                    entity_name = preprocessed[0].strip()
+                    df2vec[entity_name] = list(map(lambda x: float(x), vector.split(' ')))
+            except:
+                pass
+        write_json(rdf2vec, path)
+        return rdf2vec
+        
