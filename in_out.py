@@ -76,7 +76,7 @@ class InOut:
                     rdf2vec[entity_name]['categories'].append(category_name)
                     # rdf2vec[entity_name]['categories'][category_name] = { 'vector' : list(map(lambda x: float(x), vector.split(' '))) }
                 else:
-                    entity_name = preprocessed[0].strip()
+                    entity_name = preprocessed[0].strip().lower()
                     rdf2vec[entity_name] = { 'vector' : list(map(lambda x: float(x), vector.split(' '))) }
                     rdf2vec[entity_name]['categories'] = []
             except:
