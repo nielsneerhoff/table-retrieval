@@ -20,7 +20,7 @@ def extract_semantic_features(query, table, model, early_fusion=True, is_words=T
     
     if is_words:
         if len(query['all_words']) == 0 or len(table['all_words'] == 0):
-            return -1
+            return 0, 0, 0
         query_words = list(filter(lambda y: y in model.keys(), query['all_words']))
         query_tfidf = list(map(lambda x: query[x]['TFIDF'], query_words))
         query_2vec = list(map(lambda x: model[x], query_words))
@@ -30,7 +30,7 @@ def extract_semantic_features(query, table, model, early_fusion=True, is_words=T
         table_2vec = list(map(lambda x: model[x], table_words))
     else:
         if len(query['all_entities']) == 0 or len(table['all_entities'] == 0):
-            return -1
+            return 0, 0, 0
         query_2vec = list(map(lambda x: model[x], list(filter(lambda y: y in model.keys(), query['all_entities']))))
         table_2vec = list(map(lambda x: model[x], list(filter(lambda y: y in model.keys(), table['all_entities']))))
 
@@ -89,9 +89,9 @@ def get_entities_api(text):
     content = json.loads(json.dumps(content))
     if 'surfaceForm' in content['annotation'].keys():
         if isinstance(content['annotation']['surfaceForm'], list):
-            entities = [name['@name'] for name in content['annotation']['surfaceForm']]
+            entities = [name['@name'].replace(' ', '_').lower() for name in content['annotation']['surfaceForm']]
         else:
-            entities = [content['annotation']['surfaceForm']['@name']]
+            entities = [content['annotation']['surfaceForm']['@name'].replace(' ', '_').lower()]
     return entities
 
 

@@ -64,22 +64,22 @@ class InOut:
     def download_rdf2vec(url, path):
         rdf2vec = {}
         f = urllib.request.urlopen(url)
-        df2vec = {}
         entity_name = ''
         for coded_line in f:
             line = coded_line.decode("utf-8")
             try:
                 preprocessed = line.split('http://dbpedia.org/resource/')[1].split('>')
                 vector = preprocessed[1].strip()
-                if preprocessed[0].contains('Category:'):
-                    category_name = preprocessed[0].strip('Category:')
-                    df2vec[entity_name]['categories'] += list(map(lambda x: float(x), vector.split(' ')))
+            
+                if preprocessed[0].find('Category:') != -1:
+                    category_name = preprocessed[0].split('Category:')[1]
+                    rdf2vec[entity_name]['categories'][category_name] = { 'vector' : list(map(lambda x: float(x), vector.split(' '))) }
                 else:
                     entity_name = preprocessed[0].strip()
-                    df2vec[entity_name] = list(map(lambda x: float(x), vector.split(' ')))
-                    df2vec[entity_name]['categories'] = []
+                    rdf2vec[entity_name] = { 'vector' : list(map(lambda x: float(x), vector.split(' '))) }
+                    rdf2vec[entity_name]['categories'] = {}
             except:
                 pass
-        write_json(rdf2vec, path)
+        InOut.write_json(rdf2vec, path)
         return rdf2vec
         
