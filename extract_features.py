@@ -69,6 +69,11 @@ def extract_features(queries, tables, qrels):
             queries_dict[row.query_id] = row.query.strip()
         IO.write_json(queries_dict, base_path_dicts + 'queries.json')
 
+    tables_dict = IO.read_json(base_path_dicts + 'tables.json')
+    if tables_dict == None:
+        tables_dict = tables
+        IO.write_json(tables_dict, base_path_dicts + 'tables.json')
+
     all_words = None
     all_entities = None
     dataframe = []
@@ -77,7 +82,7 @@ def extract_features(queries, tables, qrels):
     query_to_words = IO.read_json(base_path_dicts + 'query_to_words.json')
     table_to_words = IO.read_json(base_path_dicts + 'table_to_words.json')
     if query_to_words == None or table_to_words == None:
-        all_words, query_to_words, table_to_words = get_all_words(queries_dict, tables)
+        all_words, query_to_words, table_to_words = get_all_words(queries_dict, tables_dict)
     print('---------- DONE LOADING DOCUMENT TO WORDS MODEL ----------\n')
     
 
@@ -95,7 +100,7 @@ def extract_features(queries, tables, qrels):
     query_to_entities = IO.read_json(base_path_dicts + 'query_to_entities.json')
     table_to_entities = IO.read_json(base_path_dicts + 'table_to_entities.json')
     if query_to_entities == None or table_to_entities == None:
-        all_entities, query_to_entities, table_to_entities = get_all_entities(queries_dict, tables)
+        all_entities, query_to_entities, table_to_entities = get_all_entities(queries_dict, tables_dict)
     print('---------- DONE LOADING DOCUMENT TO ENTITIES MODEL ----------\n')
 
 
@@ -118,7 +123,7 @@ def extract_features(queries, tables, qrels):
         t_id = str(row.table_id)
         rowid = q_id + '_###_' + t_id
 
-        table = tables[row.table_id]
+        table = tables_dict[row.table_id]
         query = queries_dict[q_id]
 
         if rowid not in features.keys():
