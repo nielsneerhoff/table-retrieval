@@ -144,6 +144,6 @@ data/GoogleNews-vectors-negative300.bin
 
 data/dictionaries/rdf2vec_large.json
 
-word2vec_wiki/en.model
-word2vec_wiki/en.model.syn0.npy
-word2vec_wiki/en.model.syn1.npy
+data/word2vec_wiki/*
+
+data/dictionaries/word2vec_gnews.json
