@@ -131,3 +131,6 @@ dmypy.json
 
 # Large data set
 wikiquery*
+
+# Wiki2vec model.
+data/en_1000_no_stem*
