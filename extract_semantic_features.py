@@ -76,6 +76,7 @@ def get_entities_api(text):
     """
     entities = []
     param = {'text' : text}
+    header = {'accept' : 'application/json'}
     url='http://api.dbpedia-spotlight.org/en/candidates'
     r = requests.get(url = url, params=param)
     print(text)
