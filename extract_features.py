@@ -90,7 +90,8 @@ def extract_features(queries, tables, qrels):
     print('---------- LOADING WORD2VEC MODEL ----------')
     word2vec_model = IO.read_json(base_path_dicts + 'word2vec.json')
     if word2vec_model == None:
-        word2vec_model = gensim.models.KeyedVectors.load_word2vec_format('./data/GoogleNews-vectors-negative300.bin', binary=True)
+        word2vec_model = gensim.models.Word2Vec.load('./word2vec_wiki/en.model')
+        # word2vec_model = gensim.models.KeyedVectors.load_word2vec_format('./data/GoogleNews-vectors-negative300.bin', binary=True)
         if all_words == None:
             all_words = get_all_words_from_json(query_to_words, table_to_words)
         word2vec_model = create_word2vec_model(word2vec_model, all_words)
