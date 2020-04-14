@@ -29,7 +29,7 @@ def extract_semantic_features(query, table, model, early_fusion=True, is_words=T
         table_tfidf = list(map(lambda x: table[x]['TFIDF'], table_words))
         table_2vec = list(map(lambda x: model[x], table_words))
     else:
-        if len(query['all_entities']) == 0 or len(table['all_entities'] == 0):
+        if len(query['all_entities']) == 0 or len(table['all_entities']) == 0:
             return 0, 0, 0
         query_2vec = list(map(lambda x: model[x], list(filter(lambda y: y in model.keys(), query['all_entities']))))
         table_2vec = list(map(lambda x: model[x], list(filter(lambda y: y in model.keys(), table['all_entities']))))

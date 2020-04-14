@@ -4,6 +4,7 @@ import numpy as np
 import gensim
 from extract_semantic_features import *
 from extract_semantic_dictionaries import *
+from extract_lexical_features import extract_lexical_features
 from in_out import InOut as IO
 
 HEADERS = ['query_id', 'query', 'table_id', 'row', 'col', 'nul', 'in_link', 'out_link', 'pgcount', 'tImp',
@@ -116,8 +117,6 @@ def extract_features(queries, tables, qrels):
         rdf2vec_model = create_rdf2vec_model(rdf2vec_model, all_entities)
     print('---------- DONE LOADING RDF2VEC MODEL ----------\n')
 
-    return
-
     for row in qrels.itertuples():
 
         q_id = str(row.query)
@@ -147,6 +146,11 @@ def extract_features(queries, tables, qrels):
         if 'reavg' not in features[rowid].keys():
             features[rowid]['reavg'], features[rowid]['remax'], features[rowid]['resum'] = \
                 extract_semantic_features(query_to_entities[q_id], table_to_entities[t_id], rdf2vec_model, False, False)
+
+        if 'nul' not in features[rowid].keys():
+            lexical_features = extract_lexical_features(query, table)
+            for k, v in lexical_features.items():
+                features[rowid][k] = v
 
         dataframe.append(features[rowid])
     
