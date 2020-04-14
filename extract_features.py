@@ -116,7 +116,8 @@ def extract_features(queries, tables, qrels):
         rdf2vec_model = create_rdf2vec_model(rdf2vec_model, all_entities)
     print('---------- DONE LOADING RDF2VEC MODEL ----------\n')
 
-    
+    return
+
     for row in qrels.itertuples():
 
         q_id = str(row.query)

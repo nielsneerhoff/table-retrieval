@@ -140,4 +140,6 @@ data/tables_small.jsonl
 /vscode/*
 data/GoogleNews-vectors-negative300.bin
 
+data/GoogleNews-vectors-negative300.bin
+
 data/dictionaries/rdf2vec_large.json
