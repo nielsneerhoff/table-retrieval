@@ -4,9 +4,9 @@
     },
     "2": {
         "all_entities": [
-            "2008 beijing olympics"
+            "2008_beijing_olympics"
         ],
-        "2008 beijing olympics": {}
+        "2008_beijing_olympics": {}
     },
     "3": {
         "all_entities": []
@@ -51,9 +51,9 @@
     },
     "14": {
         "all_entities": [
-            "stock quote"
+            "stock_quote"
         ],
-        "stock quote": {}
+        "stock_quote": {}
     },
     "15": {
         "all_entities": []
@@ -69,9 +69,9 @@
     },
     "18": {
         "all_entities": [
-            "professional wrestlers"
+            "professional_wrestlers"
         ],
-        "professional wrestlers": {}
+        "professional_wrestlers": {}
     },
     "19": {
         "all_entities": []
@@ -114,9 +114,9 @@
     },
     "30": {
         "all_entities": [
-            "pain medications"
+            "pain_medications"
         ],
-        "pain medications": {}
+        "pain_medications": {}
     },
     "31": {
         "all_entities": [
