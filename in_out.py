@@ -79,6 +79,7 @@ class InOut:
                     entity_name = preprocessed[0].strip().lower()
                     rdf2vec[entity_name] = { 'vector' : list(map(lambda x: float(x), vector.split(' '))) }
                     rdf2vec[entity_name]['categories'] = []
+                    print(entity_name)
             except:
                 pass
         InOut.write_json(rdf2vec, path)
