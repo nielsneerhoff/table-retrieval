@@ -140,12 +140,40 @@
 # print(list(map(lambda x: test[x], list(filter(lambda x: x in test.keys(), all_tests)))))
 
 
-import wikipedia
+# import wikipedia
 
-s = 'dasdasdsadasd'
+# s = 'dasdasdsadasd'
 
-page = wikipedia.page(s)
+# page = wikipedia.page(s)
 
-wikipedia
+# wikipedia
 
-print(s)
+# print(s)
+
+
+def get_n_grams(query):
+    n_grams = []
+    split = query.split()
+    for i in range(len(split)):
+        j = i + 1
+        while j <= len(split):
+            n_gram = '_'.join(split[i:j])
+            n_grams.append(n_gram)
+            j += 1
+    return n_grams
+
+from in_out import InOut as IO
+
+dictio = IO.read_json('./data/dictionaries/rdf2vec_large.json')
+
+queries = IO.read_json('./data/dictionaries/queries.json')
+
+entities = {}
+for i, query in queries.items():
+    entities[i] = []
+    n_grams = get_n_grams(query)
+    for n_gram in n_grams:
+        if n_gram in dictio.keys():
+            entities[i].append(n_gram)
+
+print(entities)

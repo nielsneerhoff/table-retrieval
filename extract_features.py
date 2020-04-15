@@ -3,7 +3,7 @@ import json
 import numpy as np
 import gensim
 from extract_semantic_features import *
-from extract_semantic_dictionaries import *
+from extract_dictionaries import *
 from extract_lexical_features import extract_lexical_features
 from in_out import InOut as IO
 
@@ -87,36 +87,53 @@ def extract_features(queries, tables, qrels):
     print('---------- DONE LOADING DOCUMENT TO WORDS MODEL ----------\n')
     
 
-    print('---------- LOADING WORD2VEC MODEL ----------')
-    word2vec_model = IO.read_json(base_path_dicts + 'word2vec.json')
-    if word2vec_model == None:
-        word2vec_model = gensim.models.Word2Vec.load('./word2vec_wiki/en.model')
-        # word2vec_model = gensim.models.KeyedVectors.load_word2vec_format('./data/GoogleNews-vectors-negative300.bin', binary=True)
-        if all_words == None:
-            all_words = get_all_words_from_json(query_to_words, table_to_words)
-        word2vec_model = create_word2vec_model(word2vec_model, all_words)
-    print('---------- DONE LOADING WORD2VEC MODEL ----------\n')
+    # print('---------- LOADING WORD2VEC MODEL ----------')
+    # word2vec_model = IO.read_json(base_path_dicts + 'word2vec.json')
+    # if word2vec_model == None:
+    #     word2vec_model = gensim.models.Word2Vec.load('./data/word2vec_wiki/en.model')
+    #     # word2vec_model = gensim.models.KeyedVectors.load_word2vec_format('./data/GoogleNews-vectors-negative300.bin', binary=True)
+    #     if all_words == None:
+    #         all_words = get_all_words_from_json(query_to_words, table_to_words)
+    #     word2vec_model = create_word2vec_model(word2vec_model, all_words)
+    # print('---------- DONE LOADING WORD2VEC MODEL ----------\n')
 
 
-    print('---------- LOADING DOCUMENT TO ENTITIES MODEL ----------')
+
+
+
+    
+
+
+    print('---------- LOADING RDF2VEC MODEL ----------\n')
+    rdf2vec_model = IO.read_json(base_path_dicts + 'rdf2vec.json')
+    if rdf2vec_model == None:
+        print('---------- SUBSET NOT FOUND - LOADING RDF2VEC LARGE MODEL ----------')
+
+        rdf2vec_model_large = IO.read_json(base_path_dicts + 'rdf2vec_large.json')
+        if rdf2vec_model_large == None:
+            print('---------- LARGE MODEL NOT FOUND - DOWNLOADING RDF2VEC LARGE MODEL - PLEASE WAIT ----------')
+            url = "http://data.dws.informatik.uni-mannheim.de/rdf2vec/models/DBpedia/2016-04/GlobalVectors/1_uniform/DBpediaVecotrs200_20Shuffle.txt"
+            rdf2vec_model_large = IO.download_rdf2vec(url, base_path_dicts + 'rdf2vec_large.json')
+            print('---------- DONE DOWNLOADING RDF2VEC LARGE MODEL ----------')
+    
+    print('---------- --- LOADING DOCUMENT TO ENTITIES MODEL ----------')
     query_to_entities = IO.read_json(base_path_dicts + 'query_to_entities.json')
     table_to_entities = IO.read_json(base_path_dicts + 'table_to_entities.json')
     if query_to_entities == None or table_to_entities == None:
-        all_entities, query_to_entities, table_to_entities = get_all_entities(queries_dict, tables_dict)
-    print('---------- DONE LOADING DOCUMENT TO ENTITIES MODEL ----------\n')
-
-
-    print('---------- LOADING RDF2VEC SUBSET MODEL ----------')
-    rdf2vec_model = IO.read_json(base_path_dicts + 'rdf2vec.json')
+        all_entities, query_to_entities, table_to_entities = get_all_entities(queries_dict, tables_dict, rdf2vec_model_large)
+    print('---------- --- DONE LOADING DOCUMENT TO ENTITIES MODEL ----------\n')
+    
     if rdf2vec_model == None:
-        rdf2vec_model = IO.read_json(base_path_dicts + 'rdf2vec_large.json')
-        if rdf2vec_model == None:
-            url = "http://data.dws.informatik.uni-mannheim.de/rdf2vec/models/DBpedia/2016-04/GlobalVectors/1_uniform/DBpediaVecotrs200_20Shuffle.txt"
-            rdf2vec_model = IO.download_rdf2vec(url, base_path_dicts + 'rdf2vec_large.json')
         if all_entities == None:
             all_entities = get_all_entities_from_json(query_to_entities, table_to_entities)
-        rdf2vec_model = create_rdf2vec_model(rdf2vec_model, all_entities)
+        rdf2vec_model = create_rdf2vec_model(rdf2vec_model_large, all_entities)
     print('---------- DONE LOADING RDF2VEC MODEL ----------\n')
+
+    print('---------- LOADING IDFs MODEL ----------')
+    query_to_idfs = IO.read_json(base_path_dicts + 'query_to_idfs.json')
+    if query_to_idfs == None:
+        query_to_idfs = compute_query_to_idfs(query_to_words, tables)
+    print('---------- DONE LOADING IDFs MODEL ----------\n')
 
     for row in qrels.itertuples():
 
@@ -136,21 +153,21 @@ def extract_features(queries, tables, qrels):
                 'col' : table['numCols']
             }
             
-        if 'esim' not in features[rowid].keys():
-            features[rowid]['esim'] = extract_semantic_features(query_to_words[q_id], table_to_words[t_id], word2vec_model)
-        if 'eavg' not in features[rowid].keys():
-            features[rowid]['eavg'], features[rowid]['emax'], features[rowid]['esum'] = \
-                extract_semantic_features(query_to_words[q_id], table_to_words[t_id], word2vec_model, False)
+        
+        for k, v in extract_semantic_features(query_to_words[q_id], table_to_words[t_id], word2vec_model, 'e', True).items():
+            if k not in features[rowid].keys():
+                features[rowid][k] = v
 
-        if 'resim' not in features[rowid].keys():
-            features[rowid]['resim'] = extract_semantic_features(query_to_entities[q_id], table_to_entities[t_id], rdf2vec_model, True, False)
-        if 'reavg' not in features[rowid].keys():
-            features[rowid]['reavg'], features[rowid]['remax'], features[rowid]['resum'] = \
-                extract_semantic_features(query_to_entities[q_id], table_to_entities[t_id], rdf2vec_model, False, False)
-
-        if 'nul' not in features[rowid].keys():
-            lexical_features = extract_lexical_features(query, table)
-            for k, v in lexical_features.items():
+        for k, v in extract_semantic_features(query_to_entities[q_id], table_to_entities[t_id], word2vec_model, 're', False).items():
+            if k not in features[rowid].keys():
+                features[rowid][k] = v
+        
+        for k, v in extract_lexical_features(query, table).items():
+            if k not in features[rowid].keys():
+                features[rowid][k] = v
+        
+        for k, v in query_to_idfs[q_id].items():
+            if k not in features[rowid].keys():
                 features[rowid][k] = v
 
         dataframe.append(features[rowid])

@@ -4,9 +4,9 @@
     },
     "2": {
         "all_entities": [
-            "2008_beijing_olympics"
+            "2008_Summer_Olympics"
         ],
-        "2008_beijing_olympics": {}
+        "2008_Summer_Olympics": {}
     },
     "3": {
         "all_entities": []
@@ -28,17 +28,17 @@
     },
     "9": {
         "all_entities": [
-            "bittorrent"
+            "BitTorrent"
         ],
-        "bittorrent": {}
+        "BitTorrent": {}
     },
     "10": {
         "all_entities": [
-            "olympus",
-            "digital"
+            "Digital_terrestrial_television",
+            "Olympus_Corporation"
         ],
-        "olympus": {},
-        "digital": {}
+        "Digital_terrestrial_television": {},
+        "Olympus_Corporation": {}
     },
     "11": {
         "all_entities": []
@@ -51,42 +51,42 @@
     },
     "14": {
         "all_entities": [
-            "stock_quote"
+            "Ticker_tape"
         ],
-        "stock_quote": {}
+        "Ticker_tape": {}
     },
     "15": {
         "all_entities": []
     },
     "16": {
         "all_entities": [
-            "nutrition"
+            "Nutrition"
         ],
-        "nutrition": {}
+        "Nutrition": {}
     },
     "17": {
         "all_entities": []
     },
     "18": {
         "all_entities": [
-            "professional_wrestlers"
+            "Professional_wrestling"
         ],
-        "professional_wrestlers": {}
+        "Professional_wrestling": {}
     },
     "19": {
         "all_entities": []
     },
     "20": {
         "all_entities": [
-            "dog"
+            "Dog"
         ],
-        "dog": {}
+        "Dog": {}
     },
     "21": {
         "all_entities": [
-            "ibanez"
+            "Ibanez"
         ],
-        "ibanez": {}
+        "Ibanez": {}
     },
     "22": {
         "all_entities": []
@@ -114,17 +114,17 @@
     },
     "30": {
         "all_entities": [
-            "pain_medications"
+            "Analgesic"
         ],
-        "pain_medications": {}
+        "Analgesic": {}
     },
     "31": {
         "all_entities": [
-            "football",
-            "city"
+            "Association_football",
+            "City"
         ],
-        "football": {},
-        "city": {}
+        "Association_football": {},
+        "City": {}
     },
     "32": {
         "all_entities": []
@@ -134,15 +134,15 @@
     },
     "34": {
         "all_entities": [
-            "mortality"
+            "Mortality_rate"
         ],
-        "mortality": {}
+        "Mortality_rate": {}
     },
     "35": {
         "all_entities": [
-            "cigarette"
+            "Cigarette"
         ],
-        "cigarette": {}
+        "Cigarette": {}
     },
     "36": {
         "all_entities": []
@@ -164,11 +164,11 @@
     },
     "42": {
         "all_entities": [
-            "currency",
-            "asian"
+            "Currency",
+            "Race_and_ethnicity_in_the_United_States_Census"
         ],
-        "currency": {},
-        "asian": {}
+        "Currency": {},
+        "Race_and_ethnicity_in_the_United_States_Census": {}
     },
     "43": {
         "all_entities": []
@@ -181,9 +181,9 @@
     },
     "46": {
         "all_entities": [
-            "maryland"
+            "Maryland"
         ],
-        "maryland": {}
+        "Maryland": {}
     },
     "47": {
         "all_entities": []
@@ -223,9 +223,9 @@
     },
     "59": {
         "all_entities": [
-            "constellation"
+            "Constellation"
         ],
-        "constellation": {}
+        "Constellation": {}
     },
     "60": {
         "all_entities": []

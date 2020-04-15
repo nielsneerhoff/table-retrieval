@@ -33,12 +33,6 @@ def extract_lexical_features(query, table):
         'bodyhits' : hitsB(query, table),
         'qInPgTitle' : qInPgTitle(query, table),
         'qInTableTitle' : qInTableTitle(query, table),
-        'idf1' : idfi['page_title'],
-        'idf2' : idfi['section_title'],
-        'idf3' : idfi['table_caption'],
-        'idf4' : idfi['table_heading'],
-        'idf5' : idfi['table_body'],
-        'idf6' : idfi['catch_all'],
         'query_l' : query_l(query)
     }
 
@@ -176,15 +170,6 @@ def qInTableTitle(query, table):
     no_found_in_page = set(word_tokenize(table_string))
 
     return no_found_in_table_title / no_found_in_page
-
-def compute_idf_scores(query, table):
-    """Compute idf1 through idf6 scores.
-    
-    :param query: the query
-    :param table: table at which to look
-    """    
-    for i in query.split():
-        None    
 
 def query_l(query):
     """returns the length of the query
