@@ -12,7 +12,7 @@ from in_out import InOut as IO
 base_path_dicts = './data/dictionaries/'
 
 
-def extract_semantic_features(query, table, model, early_fusion=True, is_words=True):
+def extract_semantic_features(query, table, model, key_pretex='', is_words=True):
     """ Extract the semantic features with word2vec and rdf2vec
     :param query: string with query
     :param table: table json object
@@ -34,14 +34,16 @@ def extract_semantic_features(query, table, model, early_fusion=True, is_words=T
         query_2vec = list(map(lambda x: model[x], list(filter(lambda y: y in model.keys(), query['all_entities']))))
         table_2vec = list(map(lambda x: model[x], list(filter(lambda y: y in model.keys(), table['all_entities']))))
 
-    if early_fusion:
-        return get_early_fusion(query_2vec, table_2vec, query_tfidf, table_tfidf, is_words)
-    else:
-        return get_late_fusion(query_2vec, table_2vec)
+    lf_mean, lf_max, lf_sum = get_late_fusion(query_2vec, table_2vec)
+    return {
+        key_pretex + 'sim' : get_early_fusion(query_2vec, table_2vec, query_tfidf, table_tfidf, is_words),
+        key_pretex + 'avg' : lf_mean, 
+        key_pretex + 'max' : lf_max, 
+        key_pretex + 'sum' : lf_sum
+    }
 
 
-
-def set_representation(content, representation='words'):
+def set_representation(content, representation='words', rdf2vec_large=None):
     """ The “raw” content of a query/table is represented as a set of terms, 
     where terms can be either words or entities.
     :param content: either the table with data or a single string
@@ -61,6 +63,7 @@ def set_representation(content, representation='words'):
     if representation == 'entities':
         if isinstance(content, str):
             content_set = set(get_entities_api(content))
+            content_set.union(set(get_entities_n_grams(content, rdf2vec_large)))
         else:
             max_entities_col = get_entities_core_column(content['data'], content['title'], get_entities_regex)
             entities_caption_title = get_entities_regex(content['caption'] + ' ' + content['pgTitle'])
@@ -89,9 +92,24 @@ def get_entities_api(text):
     content = json.loads(json.dumps(content))
     if 'surfaceForm' in content['annotation'].keys():
         if isinstance(content['annotation']['surfaceForm'], list):
-            entities = [name['@name'].replace(' ', '_').lower() for name in content['annotation']['surfaceForm']]
+            entities = [name['resource']['@uri'] for name in content['annotation']['surfaceForm']]
         else:
-            entities = [content['annotation']['surfaceForm']['@name'].replace(' ', '_').lower()]
+            entities = [content['annotation']['surfaceForm']['resource']['@uri']]
+    return entities
+
+
+def get_entities_n_grams(text, rdf2vec_large):
+    """Retrieves entities by matching n_grams to rdf2vec data
+    
+    :param text: query
+    :param rdf2vec_large: rdf2vec database
+    :return: list of n-gram entities
+    """
+    entities = []
+    n_grams = get_n_grams(text)
+    for n_gram in n_grams:
+        if n_gram in rdf2vec_large.keys():
+            entities.append(n_gram)
     return entities
 
 
@@ -169,3 +187,15 @@ def get_late_fusion(query, table):
 
 def cosine_similarity(X, Y):
     return np.dot(X, Y) / (np.linalg.norm(X) * np.linalg.norm(Y))
+
+
+def get_n_grams(query):
+    n_grams = []
+    split = query.split()
+    for i in range(len(split)):
+        j = i + 1
+        while j <= len(split):
+            n_gram = '_'.join(split[i:j])
+            n_grams.append(n_gram)
+            j += 1
+    return n_grams
