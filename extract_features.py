@@ -208,7 +208,7 @@ def extract_features(queries, tables, qrels):
     print('---------- WRITING WARNINGS JSON ----------\n')
     IO.write_json(warnings, base_path_dicts + 'warnings.json')
 
-    df = pd.DataFrame(features)
+    df = pd.DataFrame(dataframe)
     print('---------- WRITING FEATURES CSV ----------\n')
     IO.write_csv(df, base_path_dicts + 'features.csv')
     return df

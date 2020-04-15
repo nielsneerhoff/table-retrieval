@@ -32,21 +32,21 @@ base_path_dicts = './data/dictionaries/'
 # print(len(rdf2vec_model))
 
 
-# data = IO.read_json(base_path_dicts + 'current_features.json')
+data = IO.read_json(base_path_dicts + 'current_features.json')
 
-# dat = []
+dat = []
 
-# for d in data.values():
-#     dat.append(d)
+for d in data.values():
+    dat.append(d)
 
-# df = pd.DataFrame(dat)
+df = pd.DataFrame(dat)
 
-# IO.write_csv(df, base_path_dicts + 'current_dataframe.csv')
+IO.write_csv(df, base_path_dicts + 'features.csv')
 
-content = 'world interest rates'
+# content = 'world interest rates'
 
-lemmatizer = WordNetLemmatizer()
+# lemmatizer = WordNetLemmatizer()
 
-lemmatized_content = ' '.join([lemmatizer.lemmatize(word) for word in content.split()])
+# lemmatized_content = ' '.join([lemmatizer.lemmatize(word) for word in content.split()])
 
-print(lemmatized_content)
+# print(lemmatized_content)
