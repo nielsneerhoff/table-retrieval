@@ -1,0 +1,358 @@
+{
+    "1": {
+        "all_entities": [
+            "world",
+            "Interest_rate"
+        ],
+        "world": {},
+        "Interest_rate": {}
+    },
+    "2": {
+        "all_entities": [
+            "2008_Summer_Olympics",
+            "2008"
+        ],
+        "2008_Summer_Olympics": {},
+        "2008": {}
+    },
+    "3": {
+        "all_entities": [
+            "Fast_Car"
+        ],
+        "Fast_Car": {}
+    },
+    "4": {
+        "all_entities": [
+            "clothing"
+        ],
+        "clothing": {}
+    },
+    "5": {
+        "all_entities": [
+            "the",
+            "moon"
+        ],
+        "the": {},
+        "moon": {}
+    },
+    "6": {
+        "all_entities": [
+            "population"
+        ],
+        "population": {}
+    },
+    "7": {
+        "all_entities": [
+            "england"
+        ],
+        "england": {}
+    },
+    "8": {
+        "all_entities": []
+    },
+    "9": {
+        "all_entities": [
+            "Comparison_of_BitTorrent_clients"
+        ],
+        "Comparison_of_BitTorrent_clients": {}
+    },
+    "10": {
+        "all_entities": [
+            "Digital_terrestrial_television",
+            "Olympus_Corporation"
+        ],
+        "Digital_terrestrial_television": {},
+        "Olympus_Corporation": {}
+    },
+    "11": {
+        "all_entities": [
+            "the",
+            "sun"
+        ],
+        "the": {},
+        "sun": {}
+    },
+    "12": {
+        "all_entities": [
+            "Shoe",
+            "running"
+        ],
+        "Shoe": {},
+        "running": {}
+    },
+    "13": {
+        "all_entities": []
+    },
+    "14": {
+        "all_entities": [
+            "Ticker_tape"
+        ],
+        "Ticker_tape": {}
+    },
+    "15": {
+        "all_entities": []
+    },
+    "16": {
+        "all_entities": [
+            "nutrition",
+            "Nutrition"
+        ],
+        "nutrition": {},
+        "Nutrition": {}
+    },
+    "17": {
+        "all_entities": [
+            "City"
+        ],
+        "City": {}
+    },
+    "18": {
+        "all_entities": [
+            "Professional_wrestling"
+        ],
+        "Professional_wrestling": {}
+    },
+    "19": {
+        "all_entities": [
+            "income",
+            "Income_statement"
+        ],
+        "income": {},
+        "Income_statement": {}
+    },
+    "20": {
+        "all_entities": [
+            "Dog_breed"
+        ],
+        "Dog_breed": {}
+    },
+    "21": {
+        "all_entities": [
+            "Ibanez",
+            "ibanez",
+            "Guitar"
+        ],
+        "Ibanez": {},
+        "ibanez": {},
+        "Guitar": {}
+    },
+    "22": {
+        "all_entities": []
+    },
+    "23": {
+        "all_entities": [
+            "world"
+        ],
+        "world": {}
+    },
+    "24": {
+        "all_entities": []
+    },
+    "25": {
+        "all_entities": [
+            "academy_awards",
+            "Academy_Awards"
+        ],
+        "academy_awards": {},
+        "Academy_Awards": {}
+    },
+    "26": {
+        "all_entities": [
+            "gold",
+            "2008"
+        ],
+        "gold": {},
+        "2008": {}
+    },
+    "27": {
+        "all_entities": [
+            "Currency"
+        ],
+        "Currency": {}
+    },
+    "28": {
+        "all_entities": [
+            "science"
+        ],
+        "science": {}
+    },
+    "29": {
+        "all_entities": []
+    },
+    "30": {
+        "all_entities": [
+            "Analgesic",
+            "pain"
+        ],
+        "Analgesic": {},
+        "pain": {}
+    },
+    "31": {
+        "all_entities": [
+            "City",
+            "Association_football",
+            "city"
+        ],
+        "City": {},
+        "Association_football": {},
+        "city": {}
+    },
+    "32": {
+        "all_entities": [
+            "food"
+        ],
+        "food": {}
+    },
+    "33": {
+        "all_entities": []
+    },
+    "34": {
+        "all_entities": [
+            "Mortality_rate"
+        ],
+        "Mortality_rate": {}
+    },
+    "35": {
+        "all_entities": [
+            "Cigarette",
+            "cigarette"
+        ],
+        "Cigarette": {},
+        "cigarette": {}
+    },
+    "36": {
+        "all_entities": [
+            "Associated_Wholesale_Grocers"
+        ],
+        "Associated_Wholesale_Grocers": {}
+    },
+    "37": {
+        "all_entities": [
+            "food",
+            "value"
+        ],
+        "food": {},
+        "value": {}
+    },
+    "38": {
+        "all_entities": [
+            "Hormone"
+        ],
+        "Hormone": {}
+    },
+    "39": {
+        "all_entities": []
+    },
+    "40": {
+        "all_entities": []
+    },
+    "41": {
+        "all_entities": []
+    },
+    "42": {
+        "all_entities": [
+            "Currency",
+            "Race_and_ethnicity_in_the_United_States_Census",
+            "currency"
+        ],
+        "Currency": {},
+        "Race_and_ethnicity_in_the_United_States_Census": {},
+        "currency": {}
+    },
+    "43": {
+        "all_entities": []
+    },
+    "44": {
+        "all_entities": []
+    },
+    "45": {
+        "all_entities": [
+            "baseball"
+        ],
+        "baseball": {}
+    },
+    "46": {
+        "all_entities": [
+            "Maryland_County",
+            "maryland",
+            "population"
+        ],
+        "Maryland_County": {},
+        "maryland": {},
+        "population": {}
+    },
+    "47": {
+        "all_entities": []
+    },
+    "48": {
+        "all_entities": []
+    },
+    "49": {
+        "all_entities": [
+            "year"
+        ],
+        "year": {}
+    },
+    "50": {
+        "all_entities": [
+            "area"
+        ],
+        "area": {}
+    },
+    "51": {
+        "all_entities": [
+            "Cereal",
+            "value"
+        ],
+        "Cereal": {},
+        "value": {}
+    },
+    "52": {
+        "all_entities": []
+    },
+    "53": {
+        "all_entities": [
+            "life",
+            "Cat"
+        ],
+        "life": {},
+        "Cat": {}
+    },
+    "54": {
+        "all_entities": [
+            "Broadway_theatre"
+        ],
+        "Broadway_theatre": {}
+    },
+    "55": {
+        "all_entities": []
+    },
+    "56": {
+        "all_entities": [
+            "food"
+        ],
+        "food": {}
+    },
+    "57": {
+        "all_entities": [
+            "Board_game",
+            "number"
+        ],
+        "Board_game": {},
+        "number": {}
+    },
+    "58": {
+        "all_entities": []
+    },
+    "59": {
+        "all_entities": [
+            "constellation",
+            "Constellation"
+        ],
+        "constellation": {},
+        "Constellation": {}
+    },
+    "60": {
+        "all_entities": []
+    }
+}

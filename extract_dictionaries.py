@@ -58,7 +58,7 @@ def get_all_entities(queries, tables, rdf2vec_large=None):
 
 
     for t_id, table in tables.items():
-        entities_table = set_representation(table, 'entities')
+        entities_table = set_representation(table, 'entities', rdf2vec_large)
         table_to_entities[t_id] = {'all_entities' : list(entities_table)}
         for entity in entities_table:
             table_to_entities[t_id][entity] = {}
