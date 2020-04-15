@@ -86,15 +86,13 @@ def set_representation(content, representation='words', rdf2vec_large=None):
     if representation == 'entities':
         if isinstance(content, str):
             lemmatized_content = ' '.join([lemmatizer.lemmatize(word) for word in content.split()])
-            content_set = set(get_entities_api(lemmatized_content))
-            content_set.union(set(get_entities_n_grams(content, rdf2vec_large)))
+            content_set = set(get_entities_api(lemmatized_content)) | set(get_entities_n_grams(content, rdf2vec_large))
         else:
-            max_entities_col = get_entities_core_column(content['data'], content['title'], get_entities_api)
-            entities_caption_title = get_entities_api(content['caption'] + ' ' + content['pgTitle'])
-            content_set = set(entities_caption_title).union(set(max_entities_col))
-            content_set = content_set.union(
-                set(get_entities_n_grams(content['pgTitle'], rdf2vec_large))
-            ).union(
+            max_entities_col = get_entities_core_column(content['data'], content['title'], get_entities_regex)
+            entities_caption_title = get_entities_regex(content['caption'] + ' ' + content['pgTitle'])
+            content_set = set(entities_caption_title).union(
+                set(max_entities_col), 
+                set(get_entities_n_grams(content['pgTitle'], rdf2vec_large)),
                 set(get_entities_n_grams(content['caption'], rdf2vec_large))
             )
             for header in content['title']:
@@ -102,7 +100,7 @@ def set_representation(content, representation='words', rdf2vec_large=None):
             for row in content['data']:
                 for cell in row:
                     content_set = content_set.union(set(get_entities_n_grams(cell, rdf2vec_large)))
-    
+            
     return content_set
     
 

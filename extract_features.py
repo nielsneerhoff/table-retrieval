@@ -143,7 +143,7 @@ def extract_features(queries, tables, qrels):
         count += 1
         percentage = count / total * 100
         seconds_passed = time.time() - start
-        if count % 10 == 0: print(f'row {count} of {total} - {round(percentage, 1)} % - est. {round(seconds_passed / percentage * 100 / 60, 2)} min. left')
+        if count % 10 == 0: print(f'row {count} of {total} - {round(percentage, 1)} % - est. {round((seconds_passed / percentage * 100 - seconds_passed) / 60, 2)} min. left')
         q_id = str(row.query)
         t_id = str(row.table_id)
         rowid = q_id + '_###_' + t_id
@@ -168,6 +168,7 @@ def extract_features(queries, tables, qrels):
         except:
             if rowid not in warnings.keys():
                 warnings[rowid] = []
+            print('Warning: ' + rowid + ' lexical features')
             warnings[rowid].append('lexical_features')
         
         if 'idf1' not in features[rowid].keys():
@@ -183,6 +184,7 @@ def extract_features(queries, tables, qrels):
         except:
             if rowid not in warnings.keys():
                 warnings[rowid] = []
+            print('Warning: ' + rowid + ' semantic features e')
             warnings[rowid].append('semantic_features_e')
         
         try:
@@ -193,6 +195,7 @@ def extract_features(queries, tables, qrels):
         except:
             if rowid not in warnings.keys():
                 warnings[rowid] = []
+            print('Warning: ' + rowid + ' semantic features re')
             warnings[rowid].append('semantic_features_re')
 
         dataframe.append(features[rowid])
