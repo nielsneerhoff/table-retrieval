@@ -3,6 +3,8 @@ base_path_dicts = './data/dictionaries/'
 from extract_semantic_features import set_representation, get_entities_regex
 from math import log
 import wikipedia
+import numpy as np
+from math import log
 
 def create_word2vec_model(bin_model, words):
     word2vec = {}
@@ -41,14 +43,13 @@ def get_all_words(queries, tables):
     return all_words, query_to_words, table_to_words
 
 
-def get_all_entities(queries, tables):
+def get_all_entities(queries, tables, rdf2vec_large=None):
     query_to_entities = {}
     table_to_entities = {}
     all_entities = set()
 
     for q_id, query in queries.items():
-        # entities_query = find_all_entities_in_query(query)
-        entities_query = set_representation(query, 'entities')
+        entities_query = set_representation(query, 'entities', rdf2vec_large)
         query_to_entities[q_id] = {'all_entities' : list(entities_query)}
         for entity in entities_query:
             query_to_entities[q_id][entity] = {}
@@ -111,39 +112,41 @@ def get_all_entities_from_json(query_to_entities, table_to_entities):
     return all_entities
 
 
-# def find_all_entities_in_query(query):
-#     query_to_ngrams = {}
+def compute_query_to_idfs(query_to_words, tables):
+    """Calculate IDFs of the queries
+    idf1 : IDF page title : pgTitle
+    idf2 : IDF section title : secondTitle
+    idf3 : IDF table caption : caption
+    idf4 : IDF table heading : title
+    idf5 : IDF table body : body
+    idf6 : IDF "catch-all" : sum of the above
+    
+    :param query_to_words: query to words dictionary
+    :param tables: tables dictionary
 
-#     splitted = query.split(' ')
-#     query_to_ngrams[splitted[0]] = list_to_ngrams(splitted[1:])
-
-#     query_to_entities = {}
-#     entities = []
-
-#     for k, v in query_to_ngrams.items():
-#         query_entities = [check_if_entity(i) for i in v if check_if_entity(i) is not None]
-#         query_to_entities[k] = sorted(list(set(query_entities)))
-#         entities += query_entities
-
-#     return entities, query_to_entities
-
-
-# def check_if_entity(s):
-#     try:
-#         page = wikipedia.page(s)
-#         res = page.url.split('/')[-1]
-#         if res.lower().replace('_', ' ') == s:
-#             return res
-#         else:
-#             return
-#     except wikipedia.PageError:
-#         return
-#     except wikipedia.DisambiguationError:
-#         return
-
-
-# def list_to_ngrams(words):
-#     words_incl_n_grams = []
-#     for N in range(1, len(words) + 1):
-#         words_incl_n_grams += [' '.join(words[i:i+N]).strip() for i in range(len(words)-N+1)]
-#     return words_incl_n_grams
+    IDF_f (q) = sum_t∈q IDF_f (t)
+    IDF_f (t) = log(N / (# docs where t occurs in field f = n_t))
+    """    
+    query_to_idfs = {}
+    N = len(tables)
+    for q, query in query_to_words.items():
+        query_to_idfs[q] = {
+            'idf1' : 0, 'idf2' : 0, 'idf3' : 0, 'idf4' : 0, 'idf5' : 0, 'idf6' : 0
+        }
+        for word in query['all_words']:
+            n_t1 = 0; n_t2 = 0; n_t3 = 0; n_t4 = 0; n_t5 = 0
+            for i, table in tables.items():
+                if word in table['pgTitle'].split(): n_t1 += 1
+                if word in table['secondTitle'].split(): n_t2 += 1
+                if word in table['caption'].split(): n_t3 += 1
+                if word in ' '.join(table['title']).split(): n_t4 += 1
+                if word in ' '.join(np.array(table['data']).flatten()).split(): n_t5 += 1
+            n_t6 = sum([n_t1, n_t2, n_t3, n_t4, n_t5])
+            if n_t1 > 0: query_to_idfs[q]['idf1'] += log(N / n_t1)
+            if n_t2 > 0: query_to_idfs[q]['idf2'] += log(N / n_t2)
+            if n_t3 > 0: query_to_idfs[q]['idf3'] += log(N / n_t3)
+            if n_t4 > 0: query_to_idfs[q]['idf4'] += log(N / n_t4)
+            if n_t5 > 0: query_to_idfs[q]['idf5'] += log(N / n_t5)
+            if n_t6 > 0: query_to_idfs[q]['idf6'] += log(N / n_t6)
+    IO.write_json(query_to_idfs, base_path_dicts + 'query_to_idfs.json')
+    return query_to_idfs
