@@ -73,8 +73,8 @@ class InOut:
             
                 if preprocessed[0].find('Category:') != -1:
                     category_name = preprocessed[0].split('Category:')[1]
-                    rdf2vec[entity_name]['categories'].append(category_name)
-                    # rdf2vec[entity_name]['categories'][category_name] = { 'vector' : list(map(lambda x: float(x), vector.split(' '))) }
+                    rdf2vec[entity_name]['categories'].append(category_name.lower())
+                    # rdf2vec[entity_name]['categories'][category_name.lower()] = { 'vector' : list(map(lambda x: float(x), vector.split(' '))) }
                 else:
                     entity_name = preprocessed[0].strip().lower()
                     rdf2vec[entity_name] = { 'vector' : list(map(lambda x: float(x), vector.split(' '))) }

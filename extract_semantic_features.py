@@ -45,9 +45,12 @@ def extract_semantic_features(query, table, model, key_pretex='', is_words=True)
                 key_pretex + 'max' : 0, 
                 key_pretex + 'sum' : 0
             }
-        query_2vec = list(map(lambda x: model[x], list(filter(lambda y: y in model.keys(), query['all_entities']))))
-        table_2vec = list(map(lambda x: model[x], list(filter(lambda y: y in model.keys(), table['all_entities']))))
+        query_words = list(filter(lambda y: y in model.keys(), query['all_entities']))
+        query_2vec = list(map(lambda x: model[x]['vector'], query_words))
         query_tfidf = None
+
+        table_words = list(filter(lambda y: y in model.keys(), table['all_entities']))
+        table_2vec = list(map(lambda x: model[x]['vector'], table_words))
         table_tfidf = None
 
     if len(query_2vec) == 0 or len(table_2vec) == 0:
@@ -124,9 +127,9 @@ def get_entities_api(text):
     content = json.loads(json.dumps(content))
     if 'surfaceForm' in content['annotation'].keys():
         if isinstance(content['annotation']['surfaceForm'], list):
-            entities = [name['resource']['@uri'] for name in content['annotation']['surfaceForm']]
+            entities = [name['resource']['@uri'].lower() for name in content['annotation']['surfaceForm']]
         else:
-            entities = [content['annotation']['surfaceForm']['resource']['@uri']]
+            entities = [content['annotation']['surfaceForm']['resource']['@uri'].lower()]
     return entities
 
 
@@ -182,7 +185,7 @@ def get_entities_core_column(data, title, getter):
     return entities_in_column[no_entities_in_column.index(max(no_entities_in_column))]
 
 
-def get_centroid(arr, tfidf=None, is_words=True):
+def get_centroid(arr, tfidf, is_words):
     nparr = np.array(arr)
     length, dim = nparr.shape
     if is_words:
@@ -196,13 +199,10 @@ def get_centroid(arr, tfidf=None, is_words=True):
 
 
 
-def get_early_fusion(query_vecs, table_vecs, query_tfidf=None, table_tfidf=None, is_words=True):
+def get_early_fusion(query_vecs, table_vecs, query_tfidf, table_tfidf, is_words):
     """ Calculate the cosine similarity between the centroid of the quary and table vectors.
     """
-    if is_words:
-        return cosine_similarity(get_centroid(query_vecs, query_tfidf, is_words), get_centroid(table_vecs, table_tfidf, is_words))
-    else:
-        return cosine_similarity(get_centroid(query_vecs), get_centroid(table_vecs))
+    return cosine_similarity(get_centroid(query_vecs, query_tfidf, is_words), get_centroid(table_vecs, table_tfidf, is_words))
 
 
 
