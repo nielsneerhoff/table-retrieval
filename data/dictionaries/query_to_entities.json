@@ -1,25 +1,25 @@
 {
     "1": {
         "all_entities": [
-            "world",
-            "Interest_rate"
+            "interest_rate",
+            "world"
         ],
-        "world": {},
-        "Interest_rate": {}
+        "interest_rate": {},
+        "world": {}
     },
     "2": {
         "all_entities": [
-            "2008_Summer_Olympics",
-            "2008"
+            "2008",
+            "2008_summer_olympics"
         ],
-        "2008_Summer_Olympics": {},
-        "2008": {}
+        "2008": {},
+        "2008_summer_olympics": {}
     },
     "3": {
         "all_entities": [
-            "Fast_Car"
+            "fast_car"
         ],
-        "Fast_Car": {}
+        "fast_car": {}
     },
     "4": {
         "all_entities": [
@@ -29,11 +29,11 @@
     },
     "5": {
         "all_entities": [
-            "the",
-            "moon"
+            "moon",
+            "the"
         ],
-        "the": {},
-        "moon": {}
+        "moon": {},
+        "the": {}
     },
     "6": {
         "all_entities": [
@@ -52,17 +52,17 @@
     },
     "9": {
         "all_entities": [
-            "Comparison_of_BitTorrent_clients"
+            "comparison_of_bittorrent_clients"
         ],
-        "Comparison_of_BitTorrent_clients": {}
+        "comparison_of_bittorrent_clients": {}
     },
     "10": {
         "all_entities": [
-            "Digital_terrestrial_television",
-            "Olympus_Corporation"
+            "digital_terrestrial_television",
+            "olympus_corporation"
         ],
-        "Digital_terrestrial_television": {},
-        "Olympus_Corporation": {}
+        "digital_terrestrial_television": {},
+        "olympus_corporation": {}
     },
     "11": {
         "all_entities": [
@@ -74,67 +74,63 @@
     },
     "12": {
         "all_entities": [
-            "Shoe",
-            "running"
+            "running",
+            "shoe"
         ],
-        "Shoe": {},
-        "running": {}
+        "running": {},
+        "shoe": {}
     },
     "13": {
         "all_entities": []
     },
     "14": {
         "all_entities": [
-            "Ticker_tape"
+            "ticker_tape"
         ],
-        "Ticker_tape": {}
+        "ticker_tape": {}
     },
     "15": {
         "all_entities": []
     },
     "16": {
         "all_entities": [
-            "nutrition",
-            "Nutrition"
+            "nutrition"
         ],
-        "nutrition": {},
-        "Nutrition": {}
+        "nutrition": {}
     },
     "17": {
         "all_entities": [
-            "City"
+            "city"
         ],
-        "City": {}
+        "city": {}
     },
     "18": {
         "all_entities": [
-            "Professional_wrestling"
+            "professional_wrestling"
         ],
-        "Professional_wrestling": {}
+        "professional_wrestling": {}
     },
     "19": {
         "all_entities": [
-            "income",
-            "Income_statement"
+            "income_statement",
+            "income"
         ],
-        "income": {},
-        "Income_statement": {}
+        "income_statement": {},
+        "income": {}
     },
     "20": {
         "all_entities": [
-            "Dog_breed"
+            "dog_breed"
         ],
-        "Dog_breed": {}
+        "dog_breed": {}
     },
     "21": {
         "all_entities": [
-            "Ibanez",
             "ibanez",
-            "Guitar"
+            "guitar"
         ],
-        "Ibanez": {},
         "ibanez": {},
-        "Guitar": {}
+        "guitar": {}
     },
     "22": {
         "all_entities": []
@@ -150,25 +146,23 @@
     },
     "25": {
         "all_entities": [
-            "academy_awards",
-            "Academy_Awards"
+            "academy_awards"
         ],
-        "academy_awards": {},
-        "Academy_Awards": {}
+        "academy_awards": {}
     },
     "26": {
         "all_entities": [
-            "gold",
-            "2008"
+            "2008",
+            "gold"
         ],
-        "gold": {},
-        "2008": {}
+        "2008": {},
+        "gold": {}
     },
     "27": {
         "all_entities": [
-            "Currency"
+            "currency"
         ],
-        "Currency": {}
+        "currency": {}
     },
     "28": {
         "all_entities": [
@@ -181,20 +175,18 @@
     },
     "30": {
         "all_entities": [
-            "Analgesic",
-            "pain"
+            "pain",
+            "analgesic"
         ],
-        "Analgesic": {},
-        "pain": {}
+        "pain": {},
+        "analgesic": {}
     },
     "31": {
         "all_entities": [
-            "City",
-            "Association_football",
+            "association_football",
             "city"
         ],
-        "City": {},
-        "Association_football": {},
+        "association_football": {},
         "city": {}
     },
     "32": {
@@ -208,23 +200,21 @@
     },
     "34": {
         "all_entities": [
-            "Mortality_rate"
+            "mortality_rate"
         ],
-        "Mortality_rate": {}
+        "mortality_rate": {}
     },
     "35": {
         "all_entities": [
-            "Cigarette",
             "cigarette"
         ],
-        "Cigarette": {},
         "cigarette": {}
     },
     "36": {
         "all_entities": [
-            "Associated_Wholesale_Grocers"
+            "associated_wholesale_grocers"
         ],
-        "Associated_Wholesale_Grocers": {}
+        "associated_wholesale_grocers": {}
     },
     "37": {
         "all_entities": [
@@ -236,9 +226,9 @@
     },
     "38": {
         "all_entities": [
-            "Hormone"
+            "hormone"
         ],
-        "Hormone": {}
+        "hormone": {}
     },
     "39": {
         "all_entities": []
@@ -251,12 +241,10 @@
     },
     "42": {
         "all_entities": [
-            "Currency",
-            "Race_and_ethnicity_in_the_United_States_Census",
+            "race_and_ethnicity_in_the_united_states_census",
             "currency"
         ],
-        "Currency": {},
-        "Race_and_ethnicity_in_the_United_States_Census": {},
+        "race_and_ethnicity_in_the_united_states_census": {},
         "currency": {}
     },
     "43": {
@@ -273,13 +261,13 @@
     },
     "46": {
         "all_entities": [
-            "Maryland_County",
-            "maryland",
-            "population"
+            "population",
+            "maryland_county",
+            "maryland"
         ],
-        "Maryland_County": {},
-        "maryland": {},
-        "population": {}
+        "population": {},
+        "maryland_county": {},
+        "maryland": {}
     },
     "47": {
         "all_entities": []
@@ -301,10 +289,10 @@
     },
     "51": {
         "all_entities": [
-            "Cereal",
+            "cereal",
             "value"
         ],
-        "Cereal": {},
+        "cereal": {},
         "value": {}
     },
     "52": {
@@ -312,17 +300,17 @@
     },
     "53": {
         "all_entities": [
-            "life",
-            "Cat"
+            "cat",
+            "life"
         ],
-        "life": {},
-        "Cat": {}
+        "cat": {},
+        "life": {}
     },
     "54": {
         "all_entities": [
-            "Broadway_theatre"
+            "broadway_theatre"
         ],
-        "Broadway_theatre": {}
+        "broadway_theatre": {}
     },
     "55": {
         "all_entities": []
@@ -335,10 +323,10 @@
     },
     "57": {
         "all_entities": [
-            "Board_game",
+            "board_game",
             "number"
         ],
-        "Board_game": {},
+        "board_game": {},
         "number": {}
     },
     "58": {
@@ -346,11 +334,9 @@
     },
     "59": {
         "all_entities": [
-            "constellation",
-            "Constellation"
+            "constellation"
         ],
-        "constellation": {},
-        "Constellation": {}
+        "constellation": {}
     },
     "60": {
         "all_entities": []

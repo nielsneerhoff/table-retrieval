@@ -118,6 +118,8 @@ def extract_features(queries, tables, qrels):
     query_to_entities = IO.read_json(base_path_dicts + 'query_to_entities.json')
     table_to_entities = IO.read_json(base_path_dicts + 'table_to_entities.json')
     if query_to_entities == None or table_to_entities == None:
+        if rdf2vec_model_large == None:
+            rdf2vec_model_large = IO.read_json(base_path_dicts + 'rdf2vec_large.json')
         all_entities, query_to_entities, table_to_entities = get_all_entities(queries_dict, tables_dict, rdf2vec_model_large)
     print('---------- --- DONE LOADING DOCUMENT TO ENTITIES MODEL ----------\n')
     
