@@ -137,10 +137,13 @@ def extract_features(queries, tables, qrels):
     count = 0
     total = qrels.shape[0]
     start = time.time()
+    warnings = {}
     print('---------- START GENERATING FEATURES ----------')
     for row in qrels.itertuples():
         count += 1
-        if count % 10 == 0: print(f'row {count} of {total} - {round(count/total*100, 1)} % - {round(time.time() - start, 1)} seconds passed')
+        percentage = count / total * 100
+        seconds_passed = time.time() - start
+        if count % 10 == 0: print(f'row {count} of {total} - {round(percentage, 1)} % - est. {round(seconds_passed / percentage * 100 / 60, 2)} min. left')
         q_id = str(row.query)
         t_id = str(row.table_id)
         rowid = q_id + '_###_' + t_id
@@ -163,7 +166,9 @@ def extract_features(queries, tables, qrels):
                     if k not in features[rowid].keys():
                         features[rowid][k] = v
         except:
-            pass
+            if rowid not in warnings.keys():
+                warnings[rowid] = []
+            warnings[rowid].append('lexical_features')
         
         if 'idf1' not in features[rowid].keys():
             for k, v in query_to_idfs[q_id].items():
@@ -176,7 +181,9 @@ def extract_features(queries, tables, qrels):
                     if k not in features[rowid].keys():
                         features[rowid][k] = v
         except:
-            pass
+            if rowid not in warnings.keys():
+                warnings[rowid] = []
+            warnings[rowid].append('semantic_features_e')
         
         try:
             if 'resum' not in features[rowid].keys():
@@ -184,11 +191,19 @@ def extract_features(queries, tables, qrels):
                     if k not in features[rowid].keys():
                         features[rowid][k] = v
         except:
-            pass
+            if rowid not in warnings.keys():
+                warnings[rowid] = []
+            warnings[rowid].append('semantic_features_re')
 
         dataframe.append(features[rowid])
     
+    print('---------- WRITING FEATURES JSON ----------\n')
     IO.write_json(features, base_path_dicts + 'current_features.json')
+
+    print('---------- WRITING WARNINGS JSON ----------\n')
+    IO.write_json(warnings, base_path_dicts + 'warnings.json')
+
     df = pd.DataFrame(features)
+    print('---------- WRITING FEATURES CSV ----------\n')
     IO.write_csv(df, base_path_dicts + 'features.csv')
     return df
