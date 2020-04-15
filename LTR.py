@@ -4,9 +4,14 @@ from sklearn.model_selection import KFold
 import pickle
 from sklearn.metrics import ndcg_score
 
-#
-features_file = pd.read_csv('C:/Users/wybek/Documents/school/Master/Information Retrieval/project2/data/LTR_features.csv', index_col=0)
-#features_file = pd.read_csv('C:/Users/wybek/Documents/school/Master/Information Retrieval/project2/data/STR_features.csv', index_col=0)
+#features from OG data
+#features_file = pd.read_csv('C:/Users/wybek/Documents/school/Master/Information Retrieval/project2/data/LTR_features.csv', index_col=0)
+features_file = pd.read_csv('C:/Users/wybek/Documents/school/Master/Information Retrieval/project2/data/STR_features.csv', index_col=0)
+
+#Features from our data
+#features_file = pd.read_csv('./data/Our_LTR.csv', index_col=0)
+#features_file = pd.read_csv('./data/Our_STR.csv', index_col=0)
+
 features_file = features_file.set_index('table_id')
 
 #load the qrels dictionary
