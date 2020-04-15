@@ -158,30 +158,33 @@ def extract_features(queries, tables, qrels):
             }
         
         try:
-            for k, v in extract_lexical_features(query, table).items():
+            if 'nul' not in features[rowid].keys():
+                for k, v in extract_lexical_features(query, table).items():
+                    if k not in features[rowid].keys():
+                        features[rowid][k] = v
+        except:
+            pass
+        
+        if 'idf1' not in features[rowid].keys():
+            for k, v in query_to_idfs[q_id].items():
                 if k not in features[rowid].keys():
                     features[rowid][k] = v
-        except:
-            for k in lex_features:
-                if k not in features[rowid].keys():
-                    features[rowid][k] = None
-        
-        for k, v in query_to_idfs[q_id].items():
-            if k not in features[rowid].keys():
-                features[rowid][k] = v
 
         try:
-            for k, v in extract_semantic_features(query_to_words[q_id], table_to_words[t_id], word2vec_model, 'e', True).items():
-                if k not in features[rowid].keys():
-                    features[rowid][k] = v
-            
-            for k, v in extract_semantic_features(query_to_entities[q_id], table_to_entities[t_id], rdf2vec_model, 're', False).items():
-                if k not in features[rowid].keys():
-                    features[rowid][k] = v
+            if 'esum' not in features[rowid].keys():
+                for k, v in extract_semantic_features(query_to_words[q_id], table_to_words[t_id], word2vec_model, 'e', True).items():
+                    if k not in features[rowid].keys():
+                        features[rowid][k] = v
         except:
-            for k in sem_features:
-                if k not in features[rowid].keys():
-                    features[rowid][k] = None
+            pass
+        
+        try:
+            if 'resum' not in features[rowid].keys():
+                for k, v in extract_semantic_features(query_to_entities[q_id], table_to_entities[t_id], rdf2vec_model, 're', False).items():
+                    if k not in features[rowid].keys():
+                        features[rowid][k] = v
+        except:
+            pass
 
         dataframe.append(features[rowid])
     

@@ -166,11 +166,12 @@ test = {
 test2 = {
     're' : 4,
     'te' : 8,
-    'as' : 9
+    'ass' : None
 }
 
 df = []
 df.append(test)
+df.append(test2)
 
-dataframe()
-print(df)
+dataframe = pd.DataFrame(df)
+print(dataframe)
