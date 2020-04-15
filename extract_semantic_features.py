@@ -19,8 +19,13 @@ def extract_semantic_features(query, table, model, key_pretex='', is_words=True)
     """
     
     if is_words:
-        if len(query['all_words']) == 0 or len(table['all_words'] == 0):
-            return 0, 0, 0
+        if len(query['all_words']) == 0 or len(table['all_words']) == 0:
+            return {
+                key_pretex + 'sim' : 0,
+                key_pretex + 'avg' : 0, 
+                key_pretex + 'max' : 0, 
+                key_pretex + 'sum' : 0
+            }
         query_words = list(filter(lambda y: y in model.keys(), query['all_words']))
         query_tfidf = list(map(lambda x: query[x]['TFIDF'], query_words))
         query_2vec = list(map(lambda x: model[x], query_words))
@@ -30,10 +35,24 @@ def extract_semantic_features(query, table, model, key_pretex='', is_words=True)
         table_2vec = list(map(lambda x: model[x], table_words))
     else:
         if len(query['all_entities']) == 0 or len(table['all_entities']) == 0:
-            return 0, 0, 0
+            return {
+                key_pretex + 'sim' : 0,
+                key_pretex + 'avg' : 0, 
+                key_pretex + 'max' : 0, 
+                key_pretex + 'sum' : 0
+            }
         query_2vec = list(map(lambda x: model[x], list(filter(lambda y: y in model.keys(), query['all_entities']))))
         table_2vec = list(map(lambda x: model[x], list(filter(lambda y: y in model.keys(), table['all_entities']))))
+        query_tfidf = None
+        table_tfidf = None
 
+    if len(query_2vec) == 0 or len(table_2vec) == 0:
+        return {
+            key_pretex + 'sim' : 0,
+            key_pretex + 'avg' : 0, 
+            key_pretex + 'max' : 0, 
+            key_pretex + 'sum' : 0
+        }
     lf_mean, lf_max, lf_sum = get_late_fusion(query_2vec, table_2vec)
     return {
         key_pretex + 'sim' : get_early_fusion(query_2vec, table_2vec, query_tfidf, table_tfidf, is_words),
@@ -65,9 +84,19 @@ def set_representation(content, representation='words', rdf2vec_large=None):
             content_set = set(get_entities_api(content))
             content_set.union(set(get_entities_n_grams(content, rdf2vec_large)))
         else:
-            max_entities_col = get_entities_core_column(content['data'], content['title'], get_entities_regex)
-            entities_caption_title = get_entities_regex(content['caption'] + ' ' + content['pgTitle'])
+            max_entities_col = get_entities_core_column(content['data'], content['title'], get_entities_api)
+            entities_caption_title = get_entities_api(content['caption'] + ' ' + content['pgTitle'])
             content_set = set(entities_caption_title).union(set(max_entities_col))
+            content_set = content_set.union(
+                set(get_entities_n_grams(content['pgTitle'], rdf2vec_large))
+            ).union(
+                set(get_entities_n_grams(content['caption'], rdf2vec_large))
+            )
+            for header in content['title']:
+                content_set = content_set.union(set(get_entities_n_grams(header, rdf2vec_large)))
+            for row in content['data']:
+                for cell in row:
+                    content_set = content_set.union(set(get_entities_n_grams(cell, rdf2vec_large)))
     
     return content_set
     
@@ -164,7 +193,7 @@ def get_centroid(arr, tfidf=None, is_words=True):
 
 
 
-def get_early_fusion(query_vecs, table_vecs, query_tfidf, table_tfidf, is_words=True):
+def get_early_fusion(query_vecs, table_vecs, query_tfidf=None, table_tfidf=None, is_words=True):
     """ Calculate the cosine similarity between the centroid of the quary and table vectors.
     """
     if is_words:

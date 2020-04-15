@@ -151,29 +151,26 @@
 # print(s)
 
 
-def get_n_grams(query):
-    n_grams = []
-    split = query.split()
-    for i in range(len(split)):
-        j = i + 1
-        while j <= len(split):
-            n_gram = '_'.join(split[i:j])
-            n_grams.append(n_gram)
-            j += 1
-    return n_grams
-
 from in_out import InOut as IO
+import pandas as pd
 
-dictio = IO.read_json('./data/dictionaries/rdf2vec_large.json')
+rdf2vec = IO.read_json('./data/dictionaries/rdf2vec.json')
 
-queries = IO.read_json('./data/dictionaries/queries.json')
 
-entities = {}
-for i, query in queries.items():
-    entities[i] = []
-    n_grams = get_n_grams(query)
-    for n_gram in n_grams:
-        if n_gram in dictio.keys():
-            entities[i].append(n_gram)
+test = {
+    're' : 2,
+    'te' : 6,
+    'as' : 6
+}
 
-print(entities)
+test2 = {
+    're' : 4,
+    'te' : 8,
+    'as' : 9
+}
+
+df = []
+df.append(test)
+
+dataframe()
+print(df)

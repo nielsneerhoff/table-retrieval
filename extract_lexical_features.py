@@ -19,8 +19,6 @@ def extract_lexical_features(query, table):
     """ Main function for extracting all lexical features
     """
     page = find_page_table(table)
-
-    idfi = compute_idf_scores(query, table)
     
     lexical_features = {
         'nul' : nul(table),
@@ -90,7 +88,7 @@ def pageViews(page):
     except:
         n_of_page_views = 0
 
-    return n_of_page_views / (31 + 28 + 31)
+    return n_of_page_views / (31 + 29 + 31)
 
 def tableImportance(page):
     """ Inverse of the number of tables on the wikipedia page
@@ -119,8 +117,9 @@ def hitsSLC(query, table):
     count = 0
     words_query = query.split()
     for row in table['data']:
-        if row[1].split() in words_query:
-            count += 1
+        if len(row) > 1:
+            if row[1].split() in words_query:
+                count += 1
     return count
 
 def hitsB(query, table):
@@ -143,11 +142,11 @@ def qInPgTitle(query, table):
     for header in table['title']:
         table_string += ' ' + header
     for row in table['data']:
-        for cell in enumerate(row):
+        for cell in row:
             table_string += ' ' + cell
             
     no_found_in_page_title = len(tokens_query.intersection(tokens_page_title))
-    no_found_in_page = set(word_tokenize(table_string))
+    no_found_in_page = len(set(word_tokenize(table_string)))
 
     return no_found_in_page_title / no_found_in_page
 
@@ -163,11 +162,11 @@ def qInTableTitle(query, table):
     tokens_table_title = set(word_tokenize(table_string))
     table_string += table['caption'] + ' ' + table['secondTitle'] + ' ' + table['pgTitle']
     for row in table['data']:
-        for cell in enumerate(row):
+        for cell in row:
             table_string += ' ' + cell
             
     no_found_in_table_title = len(tokens_query.intersection(tokens_table_title))
-    no_found_in_page = set(word_tokenize(table_string))
+    no_found_in_page = len(set(word_tokenize(table_string)))
 
     return no_found_in_table_title / no_found_in_page
 
