@@ -145,7 +145,8 @@ def extract_features(queries, tables, qrels):
         count += 1
         percentage = count / total * 100
         seconds_passed = time.time() - start
-        if count % 10 == 0: print(f'row {count} of {total} - {round(percentage, 1)} % - est. {round((seconds_passed / percentage * 100 - seconds_passed) / 60, 2)} min. left')
+        seconds_left = seconds_passed / percentage * 100 - seconds_passed
+        if count % 10 == 0: print(f'row {count} of {total} - {round(percentage, 1)} % - est. {int(seconds_left / 60, 0)}:{round(seconds_left % 60, 0)} min. left')
         q_id = str(row.query)
         t_id = str(row.table_id)
         rowid = q_id + '_###_' + t_id
