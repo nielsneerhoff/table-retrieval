@@ -13,6 +13,10 @@ HEADERS = ['query_id', 'query', 'table_id', 'row', 'col', 'nul', 'in_link', 'out
             'esum', 'eavg', 'esim', 'cmax', 'csum', 'cavg', 'csim', 'remax', 'resum', 'reavg', ' resim',
             'query_l', 'rel']
 
+base_features = {'query_id', 'query', 'table_id', 'row', 'col'}
+lex_features = {'nul', 'in_link', 'out_link', 'pgcount', 'tImp', 'leftColhits', 'SecColhits', 'bodyhits', 'qInPgTitle', 'qInTableTitle'}
+sem_features = {'emax', 'esum', 'eavg', 'esim', 'remax', 'resum', 'reavg', ' resim'}
+
 base_path_dicts = './data/dictionaries/'
 
 def extract_features(queries, tables, qrels):
@@ -54,7 +58,7 @@ def extract_features(queries, tables, qrels):
             Semantic features
 
     """
-
+    
 
     # Main Dictionary of features
     features = IO.read_json(base_path_dicts + 'current_features.json')
@@ -87,21 +91,15 @@ def extract_features(queries, tables, qrels):
     print('---------- DONE LOADING DOCUMENT TO WORDS MODEL ----------\n')
     
 
-    # print('---------- LOADING WORD2VEC MODEL ----------')
-    # word2vec_model = IO.read_json(base_path_dicts + 'word2vec.json')
-    # if word2vec_model == None:
-    #     word2vec_model = gensim.models.Word2Vec.load('./data/word2vec_wiki/en.model')
-    #     # word2vec_model = gensim.models.KeyedVectors.load_word2vec_format('./data/GoogleNews-vectors-negative300.bin', binary=True)
-    #     if all_words == None:
-    #         all_words = get_all_words_from_json(query_to_words, table_to_words)
-    #     word2vec_model = create_word2vec_model(word2vec_model, all_words)
-    # print('---------- DONE LOADING WORD2VEC MODEL ----------\n')
-
-
-
-
-
-    
+    print('---------- LOADING WORD2VEC MODEL ----------')
+    word2vec_model = IO.read_json(base_path_dicts + 'word2vec.json')
+    if word2vec_model == None:
+        word2vec_model = gensim.models.Word2Vec.load('./data/word2vec_wiki/en.model')
+        # word2vec_model = gensim.models.KeyedVectors.load_word2vec_format('./data/GoogleNews-vectors-negative300.bin', binary=True)
+        if all_words == None:
+            all_words = get_all_words_from_json(query_to_words, table_to_words)
+        word2vec_model = create_word2vec_model(word2vec_model, all_words)
+    print('---------- DONE LOADING WORD2VEC MODEL ----------\n')
 
 
     print('---------- LOADING RDF2VEC MODEL ----------\n')
@@ -129,14 +127,20 @@ def extract_features(queries, tables, qrels):
         rdf2vec_model = create_rdf2vec_model(rdf2vec_model_large, all_entities)
     print('---------- DONE LOADING RDF2VEC MODEL ----------\n')
 
+
     print('---------- LOADING IDFs MODEL ----------')
     query_to_idfs = IO.read_json(base_path_dicts + 'query_to_idfs.json')
     if query_to_idfs == None:
         query_to_idfs = compute_query_to_idfs(query_to_words, tables)
     print('---------- DONE LOADING IDFs MODEL ----------\n')
 
+    count = 0
+    total = qrels.shape[0]
+    start = time.time()
+    print('---------- START GENERATING FEATURES ----------')
     for row in qrels.itertuples():
-
+        count += 1
+        if count % 10 == 0: print(f'row {count} of {total} - {round(count/total*100, 1)} % - {round(time.time() - start, 1)} seconds passed')
         q_id = str(row.query)
         t_id = str(row.table_id)
         rowid = q_id + '_###_' + t_id
@@ -152,23 +156,32 @@ def extract_features(queries, tables, qrels):
                 'row' : table['numDataRows'],
                 'col' : table['numCols']
             }
-            
         
-        for k, v in extract_semantic_features(query_to_words[q_id], table_to_words[t_id], word2vec_model, 'e', True).items():
-            if k not in features[rowid].keys():
-                features[rowid][k] = v
-
-        for k, v in extract_semantic_features(query_to_entities[q_id], table_to_entities[t_id], word2vec_model, 're', False).items():
-            if k not in features[rowid].keys():
-                features[rowid][k] = v
-        
-        for k, v in extract_lexical_features(query, table).items():
-            if k not in features[rowid].keys():
-                features[rowid][k] = v
+        try:
+            for k, v in extract_lexical_features(query, table).items():
+                if k not in features[rowid].keys():
+                    features[rowid][k] = v
+        except:
+            for k in lex_features:
+                if k not in features[rowid].keys():
+                    features[rowid][k] = None
         
         for k, v in query_to_idfs[q_id].items():
             if k not in features[rowid].keys():
                 features[rowid][k] = v
+
+        try:
+            for k, v in extract_semantic_features(query_to_words[q_id], table_to_words[t_id], word2vec_model, 'e', True).items():
+                if k not in features[rowid].keys():
+                    features[rowid][k] = v
+            
+            for k, v in extract_semantic_features(query_to_entities[q_id], table_to_entities[t_id], rdf2vec_model, 're', False).items():
+                if k not in features[rowid].keys():
+                    features[rowid][k] = v
+        except:
+            for k in sem_features:
+                if k not in features[rowid].keys():
+                    features[rowid][k] = None
 
         dataframe.append(features[rowid])
     
