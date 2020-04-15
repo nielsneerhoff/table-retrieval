@@ -189,5 +189,6 @@ def extract_features(queries, tables, qrels):
         dataframe.append(features[rowid])
     
     IO.write_json(features, base_path_dicts + 'current_features.json')
-    IO.write_csv(dataframe, base_path_dicts + 'features.csv')
-    return pd.DataFrame(dataframe)
+    df = pd.DataFrame(features)
+    IO.write_csv(df, base_path_dicts + 'features.csv')
+    return df
