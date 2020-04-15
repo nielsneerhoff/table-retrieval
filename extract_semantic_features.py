@@ -9,6 +9,10 @@ import xmltodict as xml
 
 from in_out import InOut as IO
 
+from nltk.stem import WordNetLemmatizer
+
+lemmatizer = WordNetLemmatizer()
+
 base_path_dicts = './data/dictionaries/'
 
 
@@ -81,7 +85,8 @@ def set_representation(content, representation='words', rdf2vec_large=None):
 
     if representation == 'entities':
         if isinstance(content, str):
-            content_set = set(get_entities_api(content))
+            lemmatized_content = ' '.join([lemmatizer.lemmatize(word) for word in content.split()])
+            content_set = set(get_entities_api(lemmatized_content))
             content_set.union(set(get_entities_n_grams(content, rdf2vec_large)))
         else:
             max_entities_col = get_entities_core_column(content['data'], content['title'], get_entities_api)
