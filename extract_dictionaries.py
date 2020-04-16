@@ -152,7 +152,7 @@ def compute_query_to_idfs(query_to_words, tables):
     return query_to_idfs
 
 
-def extend_queries_with_rdf2vec_categories(queries, rdf2vec_large):
+def extend_queries_with_rdf2vec_categories(queries, query_to_entities, rdf2vec_large):
     """Add categories of entities to queries
     
     :param queries: The current queries under investigation
@@ -161,7 +161,7 @@ def extend_queries_with_rdf2vec_categories(queries, rdf2vec_large):
     extended_queries = {}
     for q_id, query in queries.items():
         categories = []
-        entities = list(filter(lambda y: y in rdf2vec_large.keys(), set_representation(query, 'entities', rdf2vec_large)))
+        entities = query_to_entities[q_id]['all_entities']
         categories = [category for entity in entities for category in rdf2vec_large[entity]['categories'].keys()]
         extended_queries[q_id] = query + ' ' + ' '.join(categories)
     IO.write_json(extended_queries, base_path_dicts + 'extended_queries.json')
