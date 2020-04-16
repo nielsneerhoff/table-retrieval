@@ -187,8 +187,8 @@ def extract_features(queries, tables, qrels):
         except:
             if rowid not in warnings.keys():
                 warnings[rowid] = []
-            print('Warning: ' + rowid + ' lexical features' + sys.exc_info()[0])
-            warnings[rowid].append('lexical_features' + sys.exc_info()[0])
+            print('Warning: ' + rowid + ' lexical features')
+            warnings[rowid].append('lexical_features')
         
         if 'idf1' not in features[rowid].keys():
             for k, v in query_to_idfs[q_id].items():
@@ -206,8 +206,8 @@ def extract_features(queries, tables, qrels):
         except:
             if rowid not in warnings.keys():
                 warnings[rowid] = []
-            print('Warning: ' + rowid + ' semantic features e' + sys.exc_info()[0])
-            warnings[rowid].append('semantic_features_e' + sys.exc_info()[0])
+            print('Warning: ' + rowid + ' semantic features e')
+            warnings[rowid].append('semantic_features_e')
         
         try:
             if 'resum' not in features[rowid].keys():
@@ -220,8 +220,8 @@ def extract_features(queries, tables, qrels):
         except:
             if rowid not in warnings.keys():
                 warnings[rowid] = []
-            print('Warning: ' + rowid + ' semantic features re' + sys.exc_info()[0])
-            warnings[rowid].append('semantic_features_re' + sys.exc_info()[0])
+            print('Warning: ' + rowid + ' semantic features re')
+            warnings[rowid].append('semantic_features_re')
 
         dataframe.append(features[rowid])
     

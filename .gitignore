@@ -149,3 +149,5 @@ data/word2vec_wiki/*
 data/dictionaries/word2vec_gnews.json
 
 data/dictionaries/word2vec.json
+
+data/dictionaries/rdf2vec.json
