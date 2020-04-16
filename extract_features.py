@@ -83,7 +83,7 @@ def extract_features(queries, tables, qrels):
     all_words = None
     all_entities = None
     dataframe = []
-
+    add_categories = True
 
     print('---------- LOADING RDF2VEC MODEL ----------\n')
     rdf2vec_model = IO.read_json(base_path_dicts + 'rdf2vec.json')
@@ -97,9 +97,29 @@ def extract_features(queries, tables, qrels):
             rdf2vec_model_large = IO.download_rdf2vec(url, base_path_dicts + 'rdf2vec_large.json')
             print('---------- DONE DOWNLOADING RDF2VEC LARGE MODEL ----------')
 
+        
+        
+    print('---------- --- LOADING DOCUMENT TO ENTITIES MODEL ----------')
+    query_to_entities = IO.read_json(base_path_dicts + 'query_to_entities.json')
+    table_to_entities = IO.read_json(base_path_dicts + 'table_to_entities.json')
+    if query_to_entities == None or table_to_entities == None:
+        if rdf2vec_model_large == None:
+            rdf2vec_model_large = IO.read_json(base_path_dicts + 'rdf2vec_large.json')
+        all_entities, query_to_entities, table_to_entities = get_all_entities(queries_dict, tables_dict, rdf2vec_model_large)
+    print('---------- --- DONE LOADING DOCUMENT TO ENTITIES MODEL ----------\n')
 
-        print('---------- EXTENDING QUERIES WITH CATEGORIES ----------')
-        extended_queries = extend_queries_with_rdf2vec_categories(queries, rdf2vec_model_large)
+    if add_categories:
+        print('---------- EXTENDING QUERIES WITH CATEGORIES ----------')                  # UNCOMMENT FOR QUERY CATEGORIZATION ABSTRACTION
+        extended_queries = extend_queries_with_rdf2vec_categories(queries_dict, query_to_entities, rdf2vec_model_large)
+        queries_dict = extended_queries
+    
+    if rdf2vec_model == None:
+        if all_entities == None:
+            all_entities = get_all_entities_from_json(query_to_entities, table_to_entities)
+        rdf2vec_model = create_rdf2vec_model(rdf2vec_model_large, all_entities)
+    print('---------- DONE LOADING RDF2VEC MODEL ----------\n')
+
+
 
 
     print('---------- LOADING DOCUMENT TO WORDS MODEL ----------')
@@ -120,27 +140,13 @@ def extract_features(queries, tables, qrels):
         word2vec_model = create_word2vec_model(word2vec_model, all_words)
     print('---------- DONE LOADING WORD2VEC MODEL ----------\n')
 
-    
-    print('---------- --- LOADING DOCUMENT TO ENTITIES MODEL ----------')
-    query_to_entities = IO.read_json(base_path_dicts + 'query_to_entities.json')
-    table_to_entities = IO.read_json(base_path_dicts + 'table_to_entities.json')
-    if query_to_entities == None or table_to_entities == None:
-        if rdf2vec_model_large == None:
-            rdf2vec_model_large = IO.read_json(base_path_dicts + 'rdf2vec_large.json')
-        all_entities, query_to_entities, table_to_entities = get_all_entities(queries_dict, tables_dict, rdf2vec_model_large)
-    print('---------- --- DONE LOADING DOCUMENT TO ENTITIES MODEL ----------\n')
-    
-    if rdf2vec_model == None:
-        if all_entities == None:
-            all_entities = get_all_entities_from_json(query_to_entities, table_to_entities)
-        rdf2vec_model = create_rdf2vec_model(rdf2vec_model_large, all_entities)
-    print('---------- DONE LOADING RDF2VEC MODEL ----------\n')
+
 
 
     print('---------- LOADING IDFs MODEL ----------')
     query_to_idfs = IO.read_json(base_path_dicts + 'query_to_idfs.json')
     if query_to_idfs == None:
-        query_to_idfs = compute_query_to_idfs(query_to_words, tables)
+        query_to_idfs = compute_query_to_idfs(query_to_words, tables_dict)
     print('---------- DONE LOADING IDFs MODEL ----------\n')
 
     count = 0
@@ -176,12 +182,13 @@ def extract_features(queries, tables, qrels):
                     if k not in features[rowid].keys():
                         features[rowid][k] = v
         except KeyboardInterrupt:
+            print(warnings)
             raise KeyboardInterrupt
         except:
             if rowid not in warnings.keys():
                 warnings[rowid] = []
             print('Warning: ' + rowid + ' lexical features' + sys.exc_info()[0])
-            warnings[rowid].append('lexical_features')
+            warnings[rowid].append('lexical_features' + sys.exc_info()[0])
         
         if 'idf1' not in features[rowid].keys():
             for k, v in query_to_idfs[q_id].items():
@@ -190,29 +197,31 @@ def extract_features(queries, tables, qrels):
 
         try:
             if 'esum' not in features[rowid].keys():
-                for k, v in extract_semantic_features(query_to_words[q_id], table_to_words[t_id], word2vec_model, 'e', True).items():
+                for k, v in extract_semantic_features(query_to_words[q_id], table_to_words[t_id], word2vec_model, 'e', True, add_categories).items():
                     if k not in features[rowid].keys():
                         features[rowid][k] = v
         except KeyboardInterrupt:
+            print(warnings)
             raise KeyboardInterrupt
         except:
             if rowid not in warnings.keys():
                 warnings[rowid] = []
             print('Warning: ' + rowid + ' semantic features e' + sys.exc_info()[0])
-            warnings[rowid].append('semantic_features_e')
+            warnings[rowid].append('semantic_features_e' + sys.exc_info()[0])
         
         try:
             if 'resum' not in features[rowid].keys():
-                for k, v in extract_semantic_features(query_to_entities[q_id], table_to_entities[t_id], rdf2vec_model, 're', False).items():
+                for k, v in extract_semantic_features(query_to_entities[q_id], table_to_entities[t_id], rdf2vec_model, 're', False, add_categories).items():
                     if k not in features[rowid].keys():
                         features[rowid][k] = v
         except KeyboardInterrupt:
+            print(warnings)
             raise KeyboardInterrupt
         except:
             if rowid not in warnings.keys():
                 warnings[rowid] = []
             print('Warning: ' + rowid + ' semantic features re' + sys.exc_info()[0])
-            warnings[rowid].append('semantic_features_re')
+            warnings[rowid].append('semantic_features_re' + sys.exc_info()[0])
 
         dataframe.append(features[rowid])
     
