@@ -1,21 +1,21 @@
 {
     "1": {
         "all_entities": [
+            "interest_rate",
             "interest",
-            "world",
-            "interest_rate"
+            "world"
         ],
+        "interest_rate": {},
         "interest": {},
-        "world": {},
-        "interest_rate": {}
+        "world": {}
     },
     "2": {
         "all_entities": [
-            "2008",
-            "2008_summer_olympics"
+            "2008_summer_olympics",
+            "2008"
         ],
-        "2008": {},
-        "2008_summer_olympics": {}
+        "2008_summer_olympics": {},
+        "2008": {}
     },
     "3": {
         "all_entities": [
@@ -31,13 +31,13 @@
     },
     "5": {
         "all_entities": [
-            "the",
+            "moon",
             "of",
-            "moon"
+            "the"
         ],
-        "the": {},
+        "moon": {},
         "of": {},
-        "moon": {}
+        "the": {}
     },
     "6": {
         "all_entities": [
@@ -49,11 +49,11 @@
     },
     "7": {
         "all_entities": [
-            "of",
-            "england"
+            "england",
+            "of"
         ],
-        "of": {},
-        "england": {}
+        "england": {},
+        "of": {}
     },
     "8": {
         "all_entities": [
@@ -63,11 +63,11 @@
     },
     "9": {
         "all_entities": [
-            "comparison_of_bittorrent_clients",
-            "bittorrent"
+            "bittorrent",
+            "comparison_of_bittorrent_clients"
         ],
-        "comparison_of_bittorrent_clients": {},
-        "bittorrent": {}
+        "bittorrent": {},
+        "comparison_of_bittorrent_clients": {}
     },
     "10": {
         "all_entities": [
@@ -79,13 +79,13 @@
     },
     "11": {
         "all_entities": [
-            "the",
+            "sun",
             "of",
-            "sun"
+            "the"
         ],
-        "the": {},
+        "sun": {},
         "of": {},
-        "sun": {}
+        "the": {}
     },
     "12": {
         "all_entities": [
@@ -100,11 +100,11 @@
     },
     "14": {
         "all_entities": [
-            "quote",
-            "ticker_tape"
+            "ticker_tape",
+            "quote"
         ],
-        "quote": {},
-        "ticker_tape": {}
+        "ticker_tape": {},
+        "quote": {}
     },
     "15": {
         "all_entities": [
@@ -128,11 +128,11 @@
     },
     "18": {
         "all_entities": [
-            "professional_wrestling",
-            "professional"
+            "professional",
+            "professional_wrestling"
         ],
-        "professional_wrestling": {},
-        "professional": {}
+        "professional": {},
+        "professional_wrestling": {}
     },
     "19": {
         "all_entities": [
@@ -150,11 +150,11 @@
     },
     "21": {
         "all_entities": [
-            "ibanez",
-            "guitar"
+            "guitar",
+            "ibanez"
         ],
-        "ibanez": {},
-        "guitar": {}
+        "guitar": {},
+        "ibanez": {}
     },
     "22": {
         "all_entities": []
@@ -173,35 +173,35 @@
     },
     "25": {
         "all_entities": [
-            "academy_awards",
-            "academy"
+            "academy",
+            "academy_awards"
         ],
-        "academy_awards": {},
-        "academy": {}
+        "academy": {},
+        "academy_awards": {}
     },
     "26": {
         "all_entities": [
-            "olympic_gold",
             "gold_medal",
             "2008",
+            "medal",
+            "olympic_gold",
             "winners",
-            "gold",
-            "medal"
+            "gold"
         ],
-        "olympic_gold": {},
         "gold_medal": {},
         "2008": {},
+        "medal": {},
+        "olympic_gold": {},
         "winners": {},
-        "gold": {},
-        "medal": {}
+        "gold": {}
     },
     "27": {
         "all_entities": [
-            "of",
-            "currency"
+            "currency",
+            "of"
         ],
-        "of": {},
-        "currency": {}
+        "currency": {},
+        "of": {}
     },
     "28": {
         "all_entities": [
@@ -290,11 +290,11 @@
     },
     "42": {
         "all_entities": [
-            "race_and_ethnicity_in_the_united_states_census",
-            "currency"
+            "currency",
+            "race_and_ethnicity_in_the_united_states_census"
         ],
-        "race_and_ethnicity_in_the_united_states_census": {},
-        "currency": {}
+        "currency": {},
+        "race_and_ethnicity_in_the_united_states_census": {}
     },
     "43": {
         "all_entities": []

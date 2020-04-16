@@ -2,10 +2,10 @@
     "1": {
         "all_words": [
             "rates",
-            "interest",
             "renting",
-            "world",
-            "table"
+            "table",
+            "interest",
+            "world"
         ],
         "world": {
             "TF": 0.2857142857142857,
@@ -35,15 +35,15 @@
     },
     "2": {
         "all_words": [
-            "olympic_games_in_china",
             "olympics",
+            "21st_century_in_beijing",
+            "2008",
             "beijing",
             "2008_summer_olympics",
-            "2008",
-            "sport_in_beijing",
-            "21st_century_in_beijing",
+            "olympic_games_in_china",
+            "2008_in_chinese_sport",
             "2008_in_multi-sport_events",
-            "2008_in_chinese_sport"
+            "sport_in_beijing"
         ],
         "2008": {
             "TF": 0.2,
@@ -93,13 +93,13 @@
     },
     "3": {
         "all_words": [
-            "tracy_chapman_songs",
-            "cars",
             "fast",
-            "2015_songs",
-            "songs_written_by_tracy_chapman",
             "song_recordings_produced_by_david_kershenbaum",
-            "the_wilkinsons_songs"
+            "songs_written_by_tracy_chapman",
+            "cars",
+            "2015_songs",
+            "the_wilkinsons_songs",
+            "tracy_chapman_songs"
         ],
         "fast": {
             "TF": 0.14285714285714285,
@@ -155,11 +155,11 @@
     },
     "5": {
         "all_words": [
-            "the",
             "moon",
-            "objects_formerly_considered_planets",
+            "the",
             "of",
-            "phases"
+            "phases",
+            "objects_formerly_considered_planets"
         ],
         "phases": {
             "TF": 0.16666666666666666,
@@ -189,13 +189,13 @@
     },
     "6": {
         "all_words": [
-            "population",
-            "population_models",
+            "population_ecology",
+            "by",
+            "lists_by_population",
             "usa",
             "state",
-            "lists_by_population",
-            "population_ecology",
-            "by"
+            "population_models",
+            "population"
         ],
         "usa": {
             "TF": 0.14285714285714285,
@@ -236,10 +236,10 @@
     "7": {
         "all_words": [
             "great_britain",
-            "united_kingdom",
-            "ministers",
             "england",
             "of",
+            "ministers",
+            "united_kingdom",
             "prime"
         ],
         "prime": {
@@ -275,9 +275,9 @@
     },
     "8": {
         "all_words": [
+            "ipod",
             "models",
-            "foxconn",
-            "ipod"
+            "foxconn"
         ],
         "ipod": {
             "TF": 0.5,
@@ -313,12 +313,12 @@
     },
     "10": {
         "all_words": [
-            "olympus_corporation",
-            "slrs",
-            "1919_establishments_in_japan",
-            "digital",
             "olympus",
-            "optics_manufacturing_companies"
+            "1919_establishments_in_japan",
+            "optics_manufacturing_companies",
+            "slrs",
+            "olympus_corporation",
+            "digital"
         ],
         "olympus": {
             "TF": 0.16666666666666666,
@@ -353,10 +353,10 @@
     },
     "11": {
         "all_words": [
-            "composition",
+            "sun",
             "of",
             "the",
-            "sun"
+            "composition"
         ],
         "composition": {
             "TF": 0.25,
@@ -381,10 +381,10 @@
     },
     "12": {
         "all_words": [
-            "running",
             "shoes",
-            "footwear",
-            "endurance_sports"
+            "running",
+            "endurance_sports",
+            "footwear"
         ],
         "running": {
             "TF": 0.3333333333333333,
@@ -447,9 +447,9 @@
     },
     "15": {
         "all_words": [
-            "top",
             "grossing",
             "tops",
+            "top",
             "movies"
         ],
         "top": {
@@ -475,8 +475,8 @@
     },
     "16": {
         "all_words": [
-            "values",
-            "nutrition"
+            "nutrition",
+            "values"
         ],
         "nutrition": {
             "TF": 0.5,
@@ -491,15 +491,15 @@
     },
     "17": {
         "all_words": [
-            "us",
+            "populated_places_by_type",
             "and",
             "city",
-            "capitals",
             "largest",
-            "cities",
             "state",
-            "populated_places_by_type",
-            "in"
+            "in",
+            "capitals",
+            "us",
+            "cities"
         ],
         "state": {
             "TF": 0.1,
@@ -549,10 +549,10 @@
     },
     "18": {
         "all_words": [
-            "wrestlers",
             "professional_wrestling",
-            "mock_combat",
-            "professional"
+            "professional",
+            "wrestlers",
+            "mock_combat"
         ],
         "professional": {
             "TF": 0.25,
@@ -577,10 +577,10 @@
     },
     "19": {
         "all_words": [
-            "statements",
-            "generally_accepted_accounting_principles",
+            "income",
             "company",
-            "income"
+            "statements",
+            "generally_accepted_accounting_principles"
         ],
         "company": {
             "TF": 0.2,
@@ -605,8 +605,8 @@
     },
     "20": {
         "all_words": [
-            "dog",
-            "breeds"
+            "breeds",
+            "dog"
         ],
         "dog": {
             "TF": 0.5,
@@ -621,17 +621,17 @@
     },
     "21": {
         "all_words": [
-            "guitars",
-            "privately_held_companies_of_japan",
-            "guitar_amplifier_manufacturers",
             "guitar_manufacturing_companies",
+            "spanish_musical_instruments",
+            "guitar_amplifier_manufacturers",
+            "companies_of_japan",
+            "ibanez",
+            "companies_based_in_nagoya",
+            "guitars",
+            "companies_established_in_1929",
             "guitar_effects_manufacturing_companies",
             "manufacturing_companies_of_japan",
-            "companies_based_in_nagoya",
-            "companies_of_japan",
-            "spanish_musical_instruments",
-            "ibanez",
-            "companies_established_in_1929"
+            "privately_held_companies_of_japan"
         ],
         "ibanez": {
             "TF": 0.09090909090909091,
@@ -707,8 +707,8 @@
     },
     "23": {
         "all_words": [
-            "world",
-            "religions"
+            "religions",
+            "world"
         ],
         "world": {
             "TF": 0.6666666666666666,
@@ -734,12 +734,12 @@
     "25": {
         "all_words": [
             "academy",
-            "awards_established_in_1929",
             "cinema_of_southern_california",
-            "awards",
+            "awards_established_in_1929",
             "american_film_awards",
             "academy_awards",
             "1929_establishments_in_california",
+            "awards",
             "hollywood_history_and_culture"
         ],
         "academy": {
@@ -785,16 +785,16 @@
     },
     "26": {
         "all_words": [
-            "award_items",
-            "retail_companies_established_in_1982",
-            "gold",
             "precious_metals",
-            "winners",
-            "2008",
-            "noble_metals",
-            "medal",
             "medals",
-            "olympic"
+            "2008",
+            "medal",
+            "retail_companies_established_in_1982",
+            "award_items",
+            "noble_metals",
+            "olympic",
+            "winners",
+            "gold"
         ],
         "2008": {
             "TF": 0.16666666666666666,
@@ -849,12 +849,12 @@
     },
     "27": {
         "all_words": [
-            "different",
-            "foreign_exchange_market",
             "currencies",
             "of",
-            "countries",
-            "currency"
+            "currency",
+            "different",
+            "foreign_exchange_market",
+            "countries"
         ],
         "currencies": {
             "TF": 0.16666666666666666,
@@ -889,8 +889,8 @@
     },
     "28": {
         "all_words": [
-            "science",
-            "discoveries"
+            "discoveries",
+            "science"
         ],
         "science": {
             "TF": 0.6666666666666666,
@@ -921,11 +921,11 @@
     },
     "30": {
         "all_words": [
-            "medications",
             "opioids",
-            "pain",
+            "analgesics",
             "agnosia",
-            "analgesics"
+            "medications",
+            "pain"
         ],
         "pain": {
             "TF": 0.3333333333333333,
@@ -955,15 +955,15 @@
     },
     "31": {
         "all_words": [
-            "laws_of_association_football",
-            "city",
-            "football",
-            "cities",
-            "physical_education",
             "populated_places_by_type",
+            "physical_education",
+            "city",
             "association_football_terminology",
+            "football",
+            "laws_of_association_football",
+            "association_football",
             "clubs",
-            "association_football"
+            "cities"
         ],
         "football": {
             "TF": 0.1,
@@ -1013,8 +1013,8 @@
     },
     "32": {
         "all_words": [
-            "food",
             "healthy",
+            "food",
             "cost",
             "foods"
         ],
@@ -1073,8 +1073,8 @@
     },
     "35": {
         "all_words": [
-            "share",
             "cigarette",
+            "share",
             "brands",
             "market"
         ],
@@ -1101,10 +1101,10 @@
     },
     "36": {
         "all_words": [
-            "share",
             "1924_establishments_in_kansas",
-            "market",
-            "apples"
+            "share",
+            "apples",
+            "market"
         ],
         "apples": {
             "TF": 0.25,
@@ -1129,11 +1129,11 @@
     },
     "37": {
         "all_words": [
-            "value",
-            "healthy",
-            "nutritional",
             "foods",
-            "food"
+            "healthy",
+            "food",
+            "value",
+            "nutritional"
         ],
         "healthy": {
             "TF": 0.2,
@@ -1179,9 +1179,9 @@
     },
     "39": {
         "all_words": [
+            "chemicals",
             "strength",
-            "household",
-            "chemicals"
+            "household"
         ],
         "household": {
             "TF": 0.3333333333333333,
@@ -1201,8 +1201,8 @@
     },
     "40": {
         "all_words": [
-            "altitude",
-            "lakes"
+            "lakes",
+            "altitude"
         ],
         "lakes": {
             "TF": 0.5,
@@ -1233,11 +1233,11 @@
     },
     "42": {
         "all_words": [
+            "asian",
+            "currency",
             "foreign_exchange_market",
             "countries",
-            "asian",
-            "race_in_the_united_states",
-            "currency"
+            "race_in_the_united_states"
         ],
         "asian": {
             "TF": 0.16666666666666666,
@@ -1267,8 +1267,8 @@
     },
     "43": {
         "all_words": [
-            "diseases",
-            "risks"
+            "risks",
+            "diseases"
         ],
         "diseases": {
             "TF": 0.5,
@@ -1283,8 +1283,8 @@
     },
     "44": {
         "all_words": [
-            "capacity",
             "drives",
+            "capacity",
             "external"
         ],
         "external": {
@@ -1305,13 +1305,13 @@
     },
     "45": {
         "all_words": [
-            "1846_introductions",
-            "captain",
-            "sports_originating_in_the_united_states",
-            "former_summer_olympic_sports",
             "ball_and_bat_games",
+            "1846_introductions",
+            "sports_originating_in_the_united_states",
+            "captain",
             "teams",
-            "baseball"
+            "baseball",
+            "former_summer_olympic_sports"
         ],
         "baseball": {
             "TF": 0.25,
@@ -1351,13 +1351,13 @@
     },
     "46": {
         "all_words": [
-            "population",
+            "population_ecology",
+            "counties",
+            "lists_by_population",
+            "maryland_county",
             "maryland",
             "population_models",
-            "lists_by_population",
-            "population_ecology",
-            "maryland_county",
-            "counties"
+            "population"
         ],
         "maryland": {
             "TF": 0.25,
@@ -1397,8 +1397,8 @@
     },
     "47": {
         "all_words": [
-            "countries",
-            "capital"
+            "capital",
+            "countries"
         ],
         "countries": {
             "TF": 0.5,
@@ -1429,11 +1429,11 @@
     },
     "49": {
         "all_words": [
-            "eu",
+            "year",
             "years",
             "joined",
-            "countries",
-            "year"
+            "eu",
+            "countries"
         ],
         "eu": {
             "TF": 0.2,
@@ -1463,9 +1463,9 @@
     },
     "50": {
         "all_words": [
+            "counties",
             "irish",
-            "area",
-            "counties"
+            "area"
         ],
         "irish": {
             "TF": 0.25,
@@ -1485,8 +1485,8 @@
     },
     "51": {
         "all_words": [
-            "nutritional",
             "value",
+            "nutritional",
             "cereals"
         ],
         "cereals": {
@@ -1507,9 +1507,9 @@
     },
     "52": {
         "all_words": [
+            "erp",
             "price",
-            "systems",
-            "erp"
+            "systems"
         ],
         "erp": {
             "TF": 0.3333333333333333,
@@ -1529,13 +1529,13 @@
     },
     "53": {
         "all_words": [
-            "invasive_mammal_species",
-            "nature",
             "biology",
-            "cosmopolitan_animals",
             "cats",
-            "span",
-            "life"
+            "life",
+            "invasive_mammal_species",
+            "cosmopolitan_animals",
+            "nature",
+            "span"
         ],
         "cats": {
             "TF": 0.25,
@@ -1575,9 +1575,9 @@
     },
     "54": {
         "all_words": [
+            "broadway",
             "musicals",
-            "director",
-            "broadway"
+            "director"
         ],
         "broadway": {
             "TF": 0.3333333333333333,
@@ -1597,8 +1597,8 @@
     },
     "55": {
         "all_words": [
-            "treatment",
-            "infections"
+            "infections",
+            "treatment"
         ],
         "infections": {
             "TF": 0.5,
@@ -1614,8 +1614,8 @@
     "56": {
         "all_words": [
             "food",
-            "foods",
-            "type"
+            "type",
+            "foods"
         ],
         "food": {
             "TF": 0.3333333333333333,
@@ -1635,14 +1635,14 @@
     },
     "57": {
         "all_words": [
+            "board",
             "number",
-            "board_games",
-            "games",
-            "mathematical_objects",
             "players",
+            "games",
             "of",
-            "egyptian_inventions",
-            "board"
+            "mathematical_objects",
+            "board_games",
+            "egyptian_inventions"
         ],
         "board": {
             "TF": 0.125,
@@ -1687,9 +1687,9 @@
     },
     "58": {
         "all_words": [
+            "google",
             "products",
-            "reviews",
-            "google"
+            "reviews"
         ],
         "google": {
             "TF": 0.3333333333333333,
@@ -1731,8 +1731,8 @@
     },
     "60": {
         "all_words": [
-            "games",
-            "age"
+            "age",
+            "games"
         ],
         "games": {
             "TF": 0.5,
