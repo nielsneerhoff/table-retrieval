@@ -107,7 +107,7 @@ def hitsSLC(query, table):
     """ Number of hits in second to leftmost column
     """
     count = 0
-    if len(table['data'][0]) > 1:
+    if len(table['data']) > 1 and len(table['data'][0]) > 1:
         count = len([cell for row in table['data'] for cell in row[1].split() if cell in query.split()])
     return count
 

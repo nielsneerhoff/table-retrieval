@@ -162,7 +162,8 @@ def extend_queries_with_rdf2vec_categories(queries, query_to_entities, rdf2vec_l
     for q_id, query in queries.items():
         categories = []
         entities = query_to_entities[q_id]['all_entities']
-        categories = [category for entity in entities for category in rdf2vec_large[entity]['categories'].keys()]
+        categories = [category for entity in entities if entity in rdf2vec_large.keys() for category in rdf2vec_large[entity]['categories'].keys()]
+        query_to_entities[q_id]['all_entities'] += categories
         extended_queries[q_id] = query + ' ' + ' '.join(categories)
     IO.write_json(extended_queries, base_path_dicts + 'extended_queries.json')
     return extended_queries

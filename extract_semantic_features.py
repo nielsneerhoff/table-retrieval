@@ -3,12 +3,10 @@ import re
 import json
 import requests
 import time
-
 import numpy as np
 import xmltodict as xml
-
+import spotlight
 from in_out import InOut as IO
-
 from nltk.stem import WordNetLemmatizer
 
 lemmatizer = WordNetLemmatizer()

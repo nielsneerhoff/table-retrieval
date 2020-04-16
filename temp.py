@@ -40,29 +40,31 @@ rdf2vec_large = {
     'was' : { 'vector' : [0, 0, 0], 'categories' : {'auto' : [2, 2, 2], 'vehicle' : [2, 2, 2]}},
     'interest rate' : { 'vector' : [0, 0, 0], 'categories' : {'planet' : [3, 3, 3]}}
 }
-entities = ['world', 'interest rate', 'was']
+entities = ['world', 'interest rate', 'was', 'ads']
 
-extended_queries = {}
+cats = [category for entity in entities if entity in rdf2vec_large.keys() for category in rdf2vec_large[entity]['categories'].keys()]
+print(cats)
+# extended_queries = {}
 
-entity_vecs = list(map(lambda x: rdf2vec_large[x]['vector'], entities))
+# entity_vecs = list(map(lambda x: rdf2vec_large[x]['vector'], entities))
 
 # categories = []
 # for entity in entities:
 #     for key in rdf2vec_large[entity]['categories'].keys():
 #         categories.append(key)
 
-print(entity_vecs)
+# print(entity_vecs)
 
-category_vecs = list(map(lambda x: rdf2vec_large[x]['categories'].values(), entities))
-category_vecs = [category for entity in entities for category in rdf2vec_large[entity]['categories'].values()]
+# category_vecs = list(map(lambda x: rdf2vec_large[x]['categories'].values(), entities))
+# category_vecs = [category for entity in entities for category in rdf2vec_large[entity]['categories'].values()]
 
-entity_vecs += category_vecs
+# entity_vecs += category_vecs
 
 # extended_queries = set(entities) | set(categories)
 
 
-print(category_vecs)
-print(entity_vecs)
+# print(category_vecs)
+# print(entity_vecs)
 
 # dat = []
 

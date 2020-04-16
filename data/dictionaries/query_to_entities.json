@@ -1,0 +1,401 @@
+{
+    "1": {
+        "all_entities": [
+            "interest",
+            "world",
+            "interest_rate"
+        ],
+        "interest": {},
+        "world": {},
+        "interest_rate": {}
+    },
+    "2": {
+        "all_entities": [
+            "2008",
+            "2008_summer_olympics"
+        ],
+        "2008": {},
+        "2008_summer_olympics": {}
+    },
+    "3": {
+        "all_entities": [
+            "fast_car"
+        ],
+        "fast_car": {}
+    },
+    "4": {
+        "all_entities": [
+            "clothing"
+        ],
+        "clothing": {}
+    },
+    "5": {
+        "all_entities": [
+            "the",
+            "of",
+            "moon"
+        ],
+        "the": {},
+        "of": {},
+        "moon": {}
+    },
+    "6": {
+        "all_entities": [
+            "by",
+            "population"
+        ],
+        "by": {},
+        "population": {}
+    },
+    "7": {
+        "all_entities": [
+            "of",
+            "england"
+        ],
+        "of": {},
+        "england": {}
+    },
+    "8": {
+        "all_entities": [
+            "ipod"
+        ],
+        "ipod": {}
+    },
+    "9": {
+        "all_entities": [
+            "comparison_of_bittorrent_clients",
+            "bittorrent"
+        ],
+        "comparison_of_bittorrent_clients": {},
+        "bittorrent": {}
+    },
+    "10": {
+        "all_entities": [
+            "olympus_corporation",
+            "digital_terrestrial_television"
+        ],
+        "olympus_corporation": {},
+        "digital_terrestrial_television": {}
+    },
+    "11": {
+        "all_entities": [
+            "the",
+            "of",
+            "sun"
+        ],
+        "the": {},
+        "of": {},
+        "sun": {}
+    },
+    "12": {
+        "all_entities": [
+            "shoe",
+            "running"
+        ],
+        "shoe": {},
+        "running": {}
+    },
+    "13": {
+        "all_entities": []
+    },
+    "14": {
+        "all_entities": [
+            "quote",
+            "ticker_tape"
+        ],
+        "quote": {},
+        "ticker_tape": {}
+    },
+    "15": {
+        "all_entities": [
+            "top"
+        ],
+        "top": {}
+    },
+    "16": {
+        "all_entities": [
+            "nutrition"
+        ],
+        "nutrition": {}
+    },
+    "17": {
+        "all_entities": [
+            "in",
+            "city"
+        ],
+        "in": {},
+        "city": {}
+    },
+    "18": {
+        "all_entities": [
+            "professional_wrestling",
+            "professional"
+        ],
+        "professional_wrestling": {},
+        "professional": {}
+    },
+    "19": {
+        "all_entities": [
+            "income",
+            "income_statement"
+        ],
+        "income": {},
+        "income_statement": {}
+    },
+    "20": {
+        "all_entities": [
+            "dog_breed"
+        ],
+        "dog_breed": {}
+    },
+    "21": {
+        "all_entities": [
+            "ibanez",
+            "guitar"
+        ],
+        "ibanez": {},
+        "guitar": {}
+    },
+    "22": {
+        "all_entities": []
+    },
+    "23": {
+        "all_entities": [
+            "world"
+        ],
+        "world": {}
+    },
+    "24": {
+        "all_entities": [
+            "stocks"
+        ],
+        "stocks": {}
+    },
+    "25": {
+        "all_entities": [
+            "academy_awards",
+            "academy"
+        ],
+        "academy_awards": {},
+        "academy": {}
+    },
+    "26": {
+        "all_entities": [
+            "olympic_gold",
+            "gold_medal",
+            "2008",
+            "winners",
+            "gold",
+            "medal"
+        ],
+        "olympic_gold": {},
+        "gold_medal": {},
+        "2008": {},
+        "winners": {},
+        "gold": {},
+        "medal": {}
+    },
+    "27": {
+        "all_entities": [
+            "of",
+            "currency"
+        ],
+        "of": {},
+        "currency": {}
+    },
+    "28": {
+        "all_entities": [
+            "science"
+        ],
+        "science": {}
+    },
+    "29": {
+        "all_entities": []
+    },
+    "30": {
+        "all_entities": [
+            "analgesic",
+            "pain"
+        ],
+        "analgesic": {},
+        "pain": {}
+    },
+    "31": {
+        "all_entities": [
+            "association_football",
+            "city"
+        ],
+        "association_football": {},
+        "city": {}
+    },
+    "32": {
+        "all_entities": [
+            "food",
+            "cost"
+        ],
+        "food": {},
+        "cost": {}
+    },
+    "33": {
+        "all_entities": []
+    },
+    "34": {
+        "all_entities": [
+            "mortality_rate"
+        ],
+        "mortality_rate": {}
+    },
+    "35": {
+        "all_entities": [
+            "cigarette"
+        ],
+        "cigarette": {}
+    },
+    "36": {
+        "all_entities": [
+            "associated_wholesale_grocers"
+        ],
+        "associated_wholesale_grocers": {}
+    },
+    "37": {
+        "all_entities": [
+            "food",
+            "value"
+        ],
+        "food": {},
+        "value": {}
+    },
+    "38": {
+        "all_entities": [
+            "hormone"
+        ],
+        "hormone": {}
+    },
+    "39": {
+        "all_entities": [
+            "household_chemicals",
+            "household"
+        ],
+        "household_chemicals": {},
+        "household": {}
+    },
+    "40": {
+        "all_entities": [
+            "altitude"
+        ],
+        "altitude": {}
+    },
+    "41": {
+        "all_entities": []
+    },
+    "42": {
+        "all_entities": [
+            "race_and_ethnicity_in_the_united_states_census",
+            "currency"
+        ],
+        "race_and_ethnicity_in_the_united_states_census": {},
+        "currency": {}
+    },
+    "43": {
+        "all_entities": []
+    },
+    "44": {
+        "all_entities": []
+    },
+    "45": {
+        "all_entities": [
+            "baseball"
+        ],
+        "baseball": {}
+    },
+    "46": {
+        "all_entities": [
+            "maryland",
+            "maryland_county",
+            "population"
+        ],
+        "maryland": {},
+        "maryland_county": {},
+        "population": {}
+    },
+    "47": {
+        "all_entities": []
+    },
+    "48": {
+        "all_entities": []
+    },
+    "49": {
+        "all_entities": [
+            "year"
+        ],
+        "year": {}
+    },
+    "50": {
+        "all_entities": [
+            "area"
+        ],
+        "area": {}
+    },
+    "51": {
+        "all_entities": [
+            "value",
+            "cereal"
+        ],
+        "value": {},
+        "cereal": {}
+    },
+    "52": {
+        "all_entities": [
+            "price"
+        ],
+        "price": {}
+    },
+    "53": {
+        "all_entities": [
+            "cat",
+            "life"
+        ],
+        "cat": {},
+        "life": {}
+    },
+    "54": {
+        "all_entities": [
+            "broadway_theatre"
+        ],
+        "broadway_theatre": {}
+    },
+    "55": {
+        "all_entities": []
+    },
+    "56": {
+        "all_entities": [
+            "food"
+        ],
+        "food": {}
+    },
+    "57": {
+        "all_entities": [
+            "board_game",
+            "of",
+            "number"
+        ],
+        "board_game": {},
+        "of": {},
+        "number": {}
+    },
+    "58": {
+        "all_entities": [
+            "google"
+        ],
+        "google": {}
+    },
+    "59": {
+        "all_entities": [
+            "constellation"
+        ],
+        "constellation": {}
+    },
+    "60": {
+        "all_entities": []
+    }
+}

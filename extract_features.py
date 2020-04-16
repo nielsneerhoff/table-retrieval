@@ -96,8 +96,6 @@ def extract_features(queries, tables, qrels):
             url = "http://data.dws.informatik.uni-mannheim.de/rdf2vec/models/DBpedia/2016-04/GlobalVectors/1_uniform/DBpediaVecotrs200_20Shuffle.txt"
             rdf2vec_model_large = IO.download_rdf2vec(url, base_path_dicts + 'rdf2vec_large.json')
             print('---------- DONE DOWNLOADING RDF2VEC LARGE MODEL ----------')
-
-        
         
     print('---------- --- LOADING DOCUMENT TO ENTITIES MODEL ----------')
     query_to_entities = IO.read_json(base_path_dicts + 'query_to_entities.json')
@@ -109,9 +107,11 @@ def extract_features(queries, tables, qrels):
     print('---------- --- DONE LOADING DOCUMENT TO ENTITIES MODEL ----------\n')
 
     if add_categories:
-        print('---------- EXTENDING QUERIES WITH CATEGORIES ----------')                  # UNCOMMENT FOR QUERY CATEGORIZATION ABSTRACTION
-        extended_queries = extend_queries_with_rdf2vec_categories(queries_dict, query_to_entities, rdf2vec_model_large)
-        queries_dict = extended_queries
+        print('---------- EXTENDING QUERIES WITH CATEGORIES ----------')   
+        queries_dict = IO.read_json(base_path_dicts + 'extended_queries.json')
+        if queries_dict == None: 
+            extended_queries = extend_queries_with_rdf2vec_categories(queries_dict, query_to_entities, rdf2vec_model_large)
+            queries_dict = extended_queries
     
     if rdf2vec_model == None:
         if all_entities == None:
@@ -159,7 +159,7 @@ def extract_features(queries, tables, qrels):
         percentage = count / total * 100
         seconds_passed = time.time() - start
         seconds_left = seconds_passed / percentage * 100 - seconds_passed
-        if count % 10 == 0: print(f'row {count} of {total} - {round(percentage, 1)} % - est. {int(seconds_left / 60, 0)}:{round(seconds_left % 60, 0)} min. left')
+        if count % 10 == 0: print(f'row {count} of {total} - {round(percentage, 1)} % - est. {int(seconds_left / 60)}:{int(seconds_left % 60)} min. left')
         q_id = str(row.query)
         t_id = str(row.table_id)
         rowid = q_id + '_###_' + t_id
@@ -197,7 +197,7 @@ def extract_features(queries, tables, qrels):
 
         try:
             if 'esum' not in features[rowid].keys():
-                for k, v in extract_semantic_features(query_to_words[q_id], table_to_words[t_id], word2vec_model, 'e', True, add_categories).items():
+                for k, v in extract_semantic_features(query_to_words[q_id], table_to_words[t_id], word2vec_model, '', True, add_categories).items():
                     if k not in features[rowid].keys():
                         features[rowid][k] = v
         except KeyboardInterrupt:
