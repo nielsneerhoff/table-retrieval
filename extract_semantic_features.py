@@ -16,20 +16,23 @@ lemmatizer = WordNetLemmatizer()
 base_path_dicts = './data/dictionaries/'
 
 
-def extract_semantic_features(query, table, model, key_pretex='', is_words=True):
+def extract_semantic_features(query, table, model, key_pretex='', is_words=True, add_categories=False):
     """ Extract the semantic features with word2vec and rdf2vec
     :param query: string with query
     :param table: table json object
     """
+
+    zeros = {
+        key_pretex + 'sim' : 0,
+        key_pretex + 'avg' : 0, 
+        key_pretex + 'max' : 0, 
+        key_pretex + 'sum' : 0
+    }
     
     if is_words:
         if len(query['all_words']) == 0 or len(table['all_words']) == 0:
-            return {
-                key_pretex + 'sim' : 0,
-                key_pretex + 'avg' : 0, 
-                key_pretex + 'max' : 0, 
-                key_pretex + 'sum' : 0
-            }
+            return zeros
+
         query_words = list(filter(lambda y: y in model.keys(), query['all_words']))
         query_tfidf = list(map(lambda x: query[x]['TFIDF'], query_words))
         query_2vec = list(map(lambda x: model[x], query_words))
@@ -37,29 +40,26 @@ def extract_semantic_features(query, table, model, key_pretex='', is_words=True)
         table_words = list(filter(lambda y: y in model.keys(), table['all_words']))
         table_tfidf = list(map(lambda x: table[x]['TFIDF'], table_words))
         table_2vec = list(map(lambda x: model[x], table_words))
+
     else:
         if len(query['all_entities']) == 0 or len(table['all_entities']) == 0:
-            return {
-                key_pretex + 'sim' : 0,
-                key_pretex + 'avg' : 0, 
-                key_pretex + 'max' : 0, 
-                key_pretex + 'sum' : 0
-            }
-        query_words = list(filter(lambda y: y in model.keys(), query['all_entities']))
-        query_2vec = list(map(lambda x: model[x]['vector'], query_words))
+            return zeros
+
+        query_entities = list(filter(lambda y: y in model.keys(), query['all_entities']))
+        query_2vec = list(map(lambda x: model[x]['vector'], query_entities))
+        if add_categories:
+            query_2vec += [category for entity in query_entities for category in model[entity]['categories'].values()]
         query_tfidf = None
 
-        table_words = list(filter(lambda y: y in model.keys(), table['all_entities']))
-        table_2vec = list(map(lambda x: model[x]['vector'], table_words))
+        table_entities = list(filter(lambda y: y in model.keys(), table['all_entities']))
+        table_2vec = list(map(lambda x: model[x]['vector'], table_entities))
+        if add_categories:
+            table_2vec += [category for entity in table_entities for category in model[entity]['categories'].values()]
         table_tfidf = None
 
     if len(query_2vec) == 0 or len(table_2vec) == 0:
-        return {
-            key_pretex + 'sim' : 0,
-            key_pretex + 'avg' : 0, 
-            key_pretex + 'max' : 0, 
-            key_pretex + 'sum' : 0
-        }
+        return zeros
+
     lf_mean, lf_max, lf_sum = get_late_fusion(query_2vec, table_2vec)
     return {
         key_pretex + 'sim' : get_early_fusion(query_2vec, table_2vec, query_tfidf, table_tfidf, is_words),
@@ -98,11 +98,9 @@ def set_representation(content, representation='words', rdf2vec_large=None):
                 set(get_entities_n_grams(content['pgTitle'], rdf2vec_large)),
                 set(get_entities_n_grams(content['caption'], rdf2vec_large))
             )
-            for header in content['title']:
-                content_set = content_set.union(set(get_entities_n_grams(header, rdf2vec_large)))
-            for row in content['data']:
-                for cell in row:
-                    content_set = content_set.union(set(get_entities_n_grams(cell, rdf2vec_large)))
+            
+            content_set = content_set | {ent for header in content['title'] for ent in get_entities_n_grams(header, rdf2vec_large)}
+            content_set = content_set | {ent for row in content['data'] for cell in row for ent in get_entities_n_grams(cell, rdf2vec_large)}
             
     return content_set
     
@@ -140,11 +138,8 @@ def get_entities_n_grams(text, rdf2vec_large):
     :param rdf2vec_large: rdf2vec database
     :return: list of n-gram entities
     """
-    entities = []
     n_grams = get_n_grams(text)
-    for n_gram in n_grams:
-        if n_gram in rdf2vec_large.keys():
-            entities.append(n_gram)
+    entities = [n_gram for n_gram in n_grams if n_gram in rdf2vec_large.keys()]
     return entities
 
 

@@ -31,17 +31,47 @@ base_path_dicts = './data/dictionaries/'
 
 # print(len(rdf2vec_model))
 
+# from extract_semantic_features import *
 
-data = IO.read_json(base_path_dicts + 'current_features.json')
+# queries = IO.read_json(base_path_dicts + 'queries.json')
 
-dat = []
+rdf2vec_large = {
+    'world' : { 'vector' : [0, 0, 0], 'categories' : {'planet' : [1, 1, 1]}},
+    'was' : { 'vector' : [0, 0, 0], 'categories' : {'auto' : [2, 2, 2], 'vehicle' : [2, 2, 2]}},
+    'interest rate' : { 'vector' : [0, 0, 0], 'categories' : {'planet' : [3, 3, 3]}}
+}
+entities = ['world', 'interest rate', 'was']
 
-for d in data.values():
-    dat.append(d)
+extended_queries = {}
 
-df = pd.DataFrame(dat)
+entity_vecs = list(map(lambda x: rdf2vec_large[x]['vector'], entities))
 
-IO.write_csv(df, base_path_dicts + 'features.csv')
+# categories = []
+# for entity in entities:
+#     for key in rdf2vec_large[entity]['categories'].keys():
+#         categories.append(key)
+
+print(entity_vecs)
+
+category_vecs = list(map(lambda x: rdf2vec_large[x]['categories'].values(), entities))
+category_vecs = [category for entity in entities for category in rdf2vec_large[entity]['categories'].values()]
+
+entity_vecs += category_vecs
+
+# extended_queries = set(entities) | set(categories)
+
+
+print(category_vecs)
+print(entity_vecs)
+
+# dat = []
+
+# for d in data.values():
+#     dat.append(d)
+
+# df = pd.DataFrame(dat)
+
+# IO.write_csv(df, base_path_dicts + 'features.csv')
 
 # content = 'world interest rates'
 

@@ -140,7 +140,7 @@ def compute_query_to_idfs(query_to_words, tables):
                 if word in table['secondTitle'].split(): n_t2 += 1
                 if word in table['caption'].split(): n_t3 += 1
                 if word in ' '.join(table['title']).split(): n_t4 += 1
-                if word in ' '.join(np.array(table['data']).flatten()).split(): n_t5 += 1
+                if word in ' '.join([cell for row in table['data'] for cell in row]).split(): n_t5 += 1
             n_t6 = sum([n_t1, n_t2, n_t3, n_t4, n_t5])
             if n_t1 > 0: query_to_idfs[q]['idf1'] += log(N / n_t1)
             if n_t2 > 0: query_to_idfs[q]['idf2'] += log(N / n_t2)
@@ -150,3 +150,19 @@ def compute_query_to_idfs(query_to_words, tables):
             if n_t6 > 0: query_to_idfs[q]['idf6'] += log(N / n_t6)
     IO.write_json(query_to_idfs, base_path_dicts + 'query_to_idfs.json')
     return query_to_idfs
+
+
+def extend_queries_with_rdf2vec_categories(queries, rdf2vec_large):
+    """Add categories of entities to queries
+    
+    :param queries: The current queries under investigation
+    :param rdf2vec_large: rdf2vec model
+    """    
+    extended_queries = {}
+    for q_id, query in queries.items():
+        categories = []
+        entities = list(filter(lambda y: y in rdf2vec_large.keys(), set_representation(query, 'entities', rdf2vec_large)))
+        categories = [category for entity in entities for category in rdf2vec_large[entity]['categories'].keys()]
+        extended_queries[q_id] = query + ' ' + ' '.join(categories)
+    IO.write_json(extended_queries, base_path_dicts + 'extended_queries.json')
+    return extended_queries

@@ -52,11 +52,7 @@ def nul(table):
     :param table: table object
     :return: number of cells that are empty
     """    
-    count = 0
-    for row in table['data']:
-        for cell in row:
-            if cell == '':
-                count += 1
+    count = [cell for row in table['data'] for cell in row].count('')
     return count
 
 def in_links(page):
@@ -104,33 +100,21 @@ def tableImportance(page):
 def hitsLC(query, table):
     """ Number of hits in leftmost column
     """
-    count = 0
-    words_query = query.split()
-    for row in table['data']:
-        if row[0].split() in words_query:
-            count += 1
+    count = len([cell for row in table['data'] for cell in row[0].split() if cell in query.split()])
     return count
 
 def hitsSLC(query, table):
     """ Number of hits in second to leftmost column
     """
     count = 0
-    words_query = query.split()
-    for row in table['data']:
-        if len(row) > 1:
-            if row[1].split() in words_query:
-                count += 1
+    if len(table['data'][0]) > 1:
+        count = len([cell for row in table['data'] for cell in row[1].split() if cell in query.split()])
     return count
 
 def hitsB(query, table):
     """ Number of hits in the table body
     """
-    count = 0
-    words_query = query.split()
-    for row in table['data']:
-        for cell in row:
-            if cell.split() in words_query:
-                count += 1
+    count = len([word for row in table['data'] for cell in row for word in cell.split() if word in query.split()])
     return count
 
 def qInPgTitle(query, table):
@@ -139,11 +123,8 @@ def qInPgTitle(query, table):
     tokens_query = set(word_tokenize(query))
     tokens_page_title = set(word_tokenize(table['pgTitle']))
     table_string = table['caption'] + ' ' + table['secondTitle'] + ' ' + table['pgTitle']
-    for header in table['title']:
-        table_string += ' ' + header
-    for row in table['data']:
-        for cell in row:
-            table_string += ' ' + cell
+    table_string += ' ' + ' '.join([header for header in table['title']])
+    table_string += ' ' + ' '.join([cell for row in table['data'] for cell in row])
             
     no_found_in_page_title = len(tokens_query.intersection(tokens_page_title))
     no_found_in_page = len(set(word_tokenize(table_string)))
@@ -156,14 +137,10 @@ def qInTableTitle(query, table):
     """ Number of query tokens found in the table title divided by the total number of tokens
     """
     tokens_query = set(word_tokenize(query))
-    table_string = ''
-    for header in table['title']:
-        table_string +=  header + ' '
+    table_string = ' '.join([header for header in table['title']])
     tokens_table_title = set(word_tokenize(table_string))
-    table_string += table['caption'] + ' ' + table['secondTitle'] + ' ' + table['pgTitle']
-    for row in table['data']:
-        for cell in row:
-            table_string += ' ' + cell
+    table_string += ' ' + table['caption'] + ' ' + table['secondTitle'] + ' ' + table['pgTitle']
+    table_string += ' ' + ' '.join([cell for row in table['data'] for cell in row])
             
     no_found_in_table_title = len(tokens_query.intersection(tokens_table_title))
     no_found_in_page = len(set(word_tokenize(table_string)))

@@ -151,27 +151,37 @@
 # print(s)
 
 
-from in_out import InOut as IO
-import pandas as pd
+# from in_out import InOut as IO
+# import pandas as pd
 
-rdf2vec = IO.read_json('./data/dictionaries/rdf2vec.json')
+# rdf2vec = IO.read_json('./data/dictionaries/rdf2vec.json')
 
 
-test = {
-    're' : 2,
-    'te' : 6,
-    'as' : 6
-}
+# test = {
+#     're' : 2,
+#     'te' : 6,
+#     'as' : 6
+# }
 
-test2 = {
-    're' : 4,
-    'te' : 8,
-    'ass' : None
-}
+# test2 = {
+#     're' : 4,
+#     'te' : 8,
+#     'ass' : None
+# }
 
-df = []
-df.append(test)
-df.append(test2)
+# df = []
+# df.append(test)
+# df.append(test2)
 
-dataframe = pd.DataFrame(df)
-print(dataframe)
+# dataframe = pd.DataFrame(df)
+# print(dataframe)
+
+def splitter(cell):
+    return cell.split()
+
+string = 'world interest rate'
+data = [['te world', 'adasdas', 'world'], ['tetss asdsa rate', 'interest', 'hyrj'], ['gdaf interest', 'interest', 'qwibmdk']]
+
+count = {word for row in data for cell in row for word in splitter(cell) if word in string.split()}
+
+print(count)

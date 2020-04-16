@@ -6,6 +6,7 @@ from extract_semantic_features import *
 from extract_dictionaries import *
 from extract_lexical_features import extract_lexical_features
 from in_out import InOut as IO
+import sys
 
 HEADERS = ['query_id', 'query', 'table_id', 'row', 'col', 'nul', 'in_link', 'out_link', 'pgcount', 'tImp',
             'tPF', 'leftColhits', 'SecColhits', 'bodyhits', 'PMI', 'qInPgTitle', 'qInTableTitle', 'yRank',
@@ -83,6 +84,24 @@ def extract_features(queries, tables, qrels):
     all_entities = None
     dataframe = []
 
+
+    print('---------- LOADING RDF2VEC MODEL ----------\n')
+    rdf2vec_model = IO.read_json(base_path_dicts + 'rdf2vec.json')
+    if rdf2vec_model == None:
+        print('---------- SUBSET NOT FOUND - LOADING RDF2VEC LARGE MODEL ----------')
+
+        rdf2vec_model_large = IO.read_json(base_path_dicts + 'rdf2vec_large.json')
+        if rdf2vec_model_large == None:
+            print('---------- LARGE MODEL NOT FOUND - DOWNLOADING RDF2VEC LARGE MODEL - PLEASE WAIT ----------')
+            url = "http://data.dws.informatik.uni-mannheim.de/rdf2vec/models/DBpedia/2016-04/GlobalVectors/1_uniform/DBpediaVecotrs200_20Shuffle.txt"
+            rdf2vec_model_large = IO.download_rdf2vec(url, base_path_dicts + 'rdf2vec_large.json')
+            print('---------- DONE DOWNLOADING RDF2VEC LARGE MODEL ----------')
+
+
+        print('---------- EXTENDING QUERIES WITH CATEGORIES ----------')
+        extended_queries = extend_queries_with_rdf2vec_categories(queries, rdf2vec_model_large)
+
+
     print('---------- LOADING DOCUMENT TO WORDS MODEL ----------')
     query_to_words = IO.read_json(base_path_dicts + 'query_to_words.json')
     table_to_words = IO.read_json(base_path_dicts + 'table_to_words.json')
@@ -101,18 +120,6 @@ def extract_features(queries, tables, qrels):
         word2vec_model = create_word2vec_model(word2vec_model, all_words)
     print('---------- DONE LOADING WORD2VEC MODEL ----------\n')
 
-
-    print('---------- LOADING RDF2VEC MODEL ----------\n')
-    rdf2vec_model = IO.read_json(base_path_dicts + 'rdf2vec.json')
-    if rdf2vec_model == None:
-        print('---------- SUBSET NOT FOUND - LOADING RDF2VEC LARGE MODEL ----------')
-
-        rdf2vec_model_large = IO.read_json(base_path_dicts + 'rdf2vec_large.json')
-        if rdf2vec_model_large == None:
-            print('---------- LARGE MODEL NOT FOUND - DOWNLOADING RDF2VEC LARGE MODEL - PLEASE WAIT ----------')
-            url = "http://data.dws.informatik.uni-mannheim.de/rdf2vec/models/DBpedia/2016-04/GlobalVectors/1_uniform/DBpediaVecotrs200_20Shuffle.txt"
-            rdf2vec_model_large = IO.download_rdf2vec(url, base_path_dicts + 'rdf2vec_large.json')
-            print('---------- DONE DOWNLOADING RDF2VEC LARGE MODEL ----------')
     
     print('---------- --- LOADING DOCUMENT TO ENTITIES MODEL ----------')
     query_to_entities = IO.read_json(base_path_dicts + 'query_to_entities.json')
@@ -168,10 +175,12 @@ def extract_features(queries, tables, qrels):
                 for k, v in extract_lexical_features(query, table).items():
                     if k not in features[rowid].keys():
                         features[rowid][k] = v
+        except KeyboardInterrupt:
+            raise KeyboardInterrupt
         except:
             if rowid not in warnings.keys():
                 warnings[rowid] = []
-            print('Warning: ' + rowid + ' lexical features')
+            print('Warning: ' + rowid + ' lexical features' + sys.exc_info()[0])
             warnings[rowid].append('lexical_features')
         
         if 'idf1' not in features[rowid].keys():
@@ -184,10 +193,12 @@ def extract_features(queries, tables, qrels):
                 for k, v in extract_semantic_features(query_to_words[q_id], table_to_words[t_id], word2vec_model, 'e', True).items():
                     if k not in features[rowid].keys():
                         features[rowid][k] = v
+        except KeyboardInterrupt:
+            raise KeyboardInterrupt
         except:
             if rowid not in warnings.keys():
                 warnings[rowid] = []
-            print('Warning: ' + rowid + ' semantic features e')
+            print('Warning: ' + rowid + ' semantic features e' + sys.exc_info()[0])
             warnings[rowid].append('semantic_features_e')
         
         try:
@@ -195,10 +206,12 @@ def extract_features(queries, tables, qrels):
                 for k, v in extract_semantic_features(query_to_entities[q_id], table_to_entities[t_id], rdf2vec_model, 're', False).items():
                     if k not in features[rowid].keys():
                         features[rowid][k] = v
+        except KeyboardInterrupt:
+            raise KeyboardInterrupt
         except:
             if rowid not in warnings.keys():
                 warnings[rowid] = []
-            print('Warning: ' + rowid + ' semantic features re')
+            print('Warning: ' + rowid + ' semantic features re' + sys.exc_info()[0])
             warnings[rowid].append('semantic_features_re')
 
         dataframe.append(features[rowid])
