@@ -36,12 +36,10 @@ def extract_features(queries, tables, qrels):
             #rows:              The number of rows in the table                                 {1, ..., n}
             #cols:              The number of columns in the table                              {1, ..., n}
             #of NULLs in table  The number of empty table cells                                 {0, ..., n}
-            PMI                 The ACSDb-based schema coherency score                          (−∞, ∞)
             inLinks             Number of in-links to the page embedding the table              {1, ..., n}
             outLinks            Number of out-links from the page embedding the table           {1, ..., n}
             pageViews           Number of page views                                            {1, ..., n}
             tableImportance     Inverse of number of tables on the page                         (0, 1]
-            tablePageFraction   Ratio of table size to page size                                (0, 1]
 
             Query + Table features
             #hitsLC             Total query term frequency in the leftmost column cells         {1, ..., n}
@@ -51,13 +49,6 @@ def extract_features(queries, tables, qrels):
                                         page title to total number of tokens                    [0, 1]
             qInTableTitle       Ratio of the number of query tokens found in 
                                         table title to total number of tokens                   [0, 1]
-            yRank               Rank of the table’s Wikipedia page in Web search 
-                                        engine results for the query                            {1, ..., n}
-            MLM similarity      Language modeling score between query and multi-field 
-                                        document repr. of the table                             (−∞, 0)
-
-            Semantic features
-
     """
     
 
